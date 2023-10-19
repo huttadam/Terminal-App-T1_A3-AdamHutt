@@ -1,1 +1,6 @@
-print ("Test1")
+import modules
+
+main = modules.Main()
+
+main()
+
