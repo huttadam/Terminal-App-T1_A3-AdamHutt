@@ -1,4 +1,5 @@
 from clear import clear # installed  clear
+import os
 # from keyboard_listener import KeyboardListener, Combo, KeyWord # Installed pynput
 
 class MenuLogo():
@@ -46,7 +47,7 @@ class Main(MenuLogo):
 
                 case 1:
                     clear()
-                    print("hello") #STUDY
+                    StudyMenu()
                     
                 # case 2:
                 #     pass # Create a deck
@@ -71,5 +72,48 @@ class StudyMenu(MenuLogo):
 
         '''
 
-     
-            
+
+
+
+def create_deck_from_file():
+    deck_name =[]
+
+
+    file_path = input("Enter the path or name of the text file: ")
+
+    if os.path.isfile(file_path):
+        with open(file_path, 'r') as c:
+            lines = c.readlines()
+    else:
+        print("File not found. Please ennter a valid file path or name")
+
+
+    for index,line in enumerate(lines):
+        content, answer = line.strip().split(', ')
+        index += 1
+        card_info = {
+            "card_num": index * 2,  # card number (unique)
+            "tot_daily_deck_count": len(lines) * 2,  # out of the total cards to learn from today
+            "content": content,  # content / Question
+            "answer": answer,  # Answer
+        }
+        deck_name.append(card_info)
+
+    for index,line in enumerate(lines):
+        content,answer = line.strip().split(', ')
+        index += 1
+        card_info = {
+            "card_num": index * 2 - 1,  # card number (unique)
+            "tot_daily_deck_count": len(lines) * 2,  # out of the total cards to learn from today
+            "content": answer,  # content swapped to create another card
+            "answer": content,  # answer Swapped to create another card
+        }
+        deck_name.append(card_info)
+
+    deck_name = input("what do you want to name the deck?: ")
+
+    return deck_name
+
+
+
+

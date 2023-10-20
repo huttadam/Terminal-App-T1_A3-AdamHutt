@@ -1,6 +1,8 @@
 import modules
 
-main = modules.Main()
+# main = modules.Main()
 
-main()
+modules.create_deck_from_file()
+
+# main()
 
