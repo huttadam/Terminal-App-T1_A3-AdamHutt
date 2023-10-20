@@ -1,8 +1,17 @@
 import modules
 
-# main = modules.Main()
+# modules.Main()
 
 modules.create_deck_from_file()
 
-# main()
+print(modules.decks)
+
+# modules.study_menu(modules.decks)
+
+
+
+
+
+
+
 

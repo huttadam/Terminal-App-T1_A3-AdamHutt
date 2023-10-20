@@ -1,5 +1,8 @@
 from clear import clear # installed  clear
 import os
+import pandas as pd
+
+
 # from keyboard_listener import KeyboardListener, Combo, KeyWord # Installed pynput
 
 class MenuLogo():
@@ -33,6 +36,8 @@ class MenuLogo():
         '''
 
 
+
+
 class Main(MenuLogo):
     def __init__(self):
         super().__init__()
@@ -46,7 +51,6 @@ class Main(MenuLogo):
         match user_main_choice:
 
                 case 1:
-                    clear()
                     StudyMenu()
                     
                 # case 2:
@@ -72,12 +76,15 @@ class StudyMenu(MenuLogo):
 
         '''
 
+        print(self.greeting)
+        print(self.options)
 
 
+decks = {"Korean Example Deck": [{'card_num': 1, 'tot_daily_deck_count': 2, 'content': 'Hello', 'answer': '안녕하세요 (annyeonghaseyo)'}, {'card_num': 2, 'tot_daily_deck_count': 2, 'content': '안녕하세요 (annyeonghaseyo)', 'answer': 'Hello'}]}
 
 def create_deck_from_file():
-    deck_name =[]
-
+    
+    new_deck =[]
 
     file_path = input("Enter the path or name of the text file: ")
 
@@ -97,7 +104,7 @@ def create_deck_from_file():
             "content": content,  # content / Question
             "answer": answer,  # Answer
         }
-        deck_name.append(card_info)
+        new_deck.append(card_info)
 
     for index,line in enumerate(lines):
         content,answer = line.strip().split(', ')
@@ -108,11 +115,34 @@ def create_deck_from_file():
             "content": answer,  # content swapped to create another card
             "answer": content,  # answer Swapped to create another card
         }
-        deck_name.append(card_info)
+        new_deck.append(card_info)
 
-    deck_name = input("what do you want to name the deck?: ")
+    new_name = input("what do you want to name the deck?: ")
 
-    return deck_name
+    if new_name not in decks:
+        decks[new_name] = new_deck
+
+
+    return decks  
+
+
+def study_menu(decks):
+    # study_menu_template = [0, deck_name, len(deck_name) , 0] # number , Name, total cards in deck, Daily cards to learn
+    for k,v in decks.items():
+        print (f'''
+             
+        - { k } | Cards to Study :   {len(v)}
+
+
+     ''')
+
+# Allows Study to happen
+
+class ShowCard:
+    def __init__(self, front, back):
+        self.front = front
+        self.back = back
+
 
 
 

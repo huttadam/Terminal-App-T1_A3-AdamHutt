@@ -1,0 +1,13 @@
+# may change to DB
+
+decks = {"Korean Example Deck":
+        [
+        {'card_num': 1, 'tot_daily_deck_count': 2, 'content': 'Hello', 'answer': '안녕하세요 (annyeonghaseyo)'},
+        {'card_num': 2, 'tot_daily_deck_count': 2, 'content': '안녕하세요 (annyeonghaseyo)', 'answer': 'Hello'}
+        ]
+        }
+
+
+
+
+deck1 =  {'Hello': [{'card_num': 2, 'tot_daily_deck_count': 20, 'content': 'Hello', 'answer': 'こんにちは (Konnichiwa)'}, {'card_num': 4, 'tot_daily_deck_count': 20, 'content': 'Good morning', 'answer': 'おはよう (Ohayou)'}, {'card_num': 6, 'tot_daily_deck_count': 20, 'content': 'Good night', 'answer': 'おやすみなさい (Oyasuminasai)'}, {'card_num': 8, 'tot_daily_deck_count': 20, 'content': 'Thank you', 'answer': 'ありがとう (Arigatou)'}, {'card_num': 10, 'tot_daily_deck_count': 20, 'content': "You're welcome", 'answer': 'どういたしまして (Douitashimashite)'}, {'card_num': 12, 'tot_daily_deck_count': 20, 'content': 'Please', 'answer': 'お願いします (Onegaishimasu)'}, {'card_num': 14, 'tot_daily_deck_count': 20, 'content': 'Excuse me', 'answer': 'すみません (Sumimasen)'}, {'card_num': 16, 'tot_daily_deck_count': 20, 'content': "I'm sorry", 'answer': 'ごめんなさい (Gomen nasai)'}, {'card_num': 18, 'tot_daily_deck_count': 20, 'content': 'How are you?', 'answer': 'お元気ですか？ (Ogenki desu ka?)'}, {'card_num': 20, 'tot_daily_deck_count': 20, 'content': "What's your name?", 'answer': 'お名前は何ですか？ (Onamae wa nan desu ka?)'}, {'card_num': 1, 'tot_daily_deck_count': 20, 'content': 'こんにちは (Konnichiwa)', 'answer': 'Hello'}, {'card_num': 3, 'tot_daily_deck_count': 20, 'content': 'おはよう (Ohayou)', 'answer': 'Good morning'}, {'card_num': 5, 'tot_daily_deck_count': 20, 'content': 'おやすみなさい (Oyasuminasai)', 'answer': 'Good night'}, {'card_num': 7, 'tot_daily_deck_count': 20, 'content': 'ありがとう (Arigatou)', 'answer': 'Thank you'}, {'card_num': 9, 'tot_daily_deck_count': 20, 'content': 'どういたしまして (Douitashimashite)', 'answer': "You're welcome"}, {'card_num': 11, 'tot_daily_deck_count': 20, 'content': 'お願いします (Onegaishimasu)', 'answer': 'Please'}, {'card_num': 13, 'tot_daily_deck_count': 20, 'content': 'すみません (Sumimasen)', 'answer': 'Excuse me'}, {'card_num': 15, 'tot_daily_deck_count': 20, 'content': 'ごめんなさい (Gomen nasai)', 'answer': "I'm sorry"}, {'card_num': 17, 'tot_daily_deck_count': 20, 'content': 'お元気ですか？ (Ogenki desu ka?)', 'answer': 'How are you?'}, {'card_num': 19, 'tot_daily_deck_count': 20, 'content': 'お名前は何ですか？ (Onamae wa nan desu ka?)', 'answer': "What's your name?"}]}
