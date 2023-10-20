@@ -1,3 +1,4 @@
+import data
 from clear import clear # installed  clear
 import os
 import pandas as pd
@@ -138,12 +139,36 @@ def study_menu(decks):
 
 # Allows Study to happen
 
-class ShowCard:
-    def __init__(self, front, back):
+class Card:
+    def __init__(self, front, back, total_card_num, deck_name):
         self.front = front
         self.back = back
+        self.total_card_num = total_card_num
+        self.deck_name = deck_name
 
 
+class Study:
+    def __init__(self, for_deck):
+        self.for_deck = for_deck
+        self.card_num = 1
 
+    def card_display(self):
+        current_card = self.for_deck[self.card_num]
+        print(f'''
+            -------------------------------------
+              {self.card_num} / {current_card.total_card_num}
 
+                        {current_card.deck_name}
 
+                        {current_card.front}
+
+              
+              
+              
+            -------------------------------------  
+              
+              
+              ''')
+        flip = input(f" Type F to flip :")
+
+df = pd.DataFrame()
