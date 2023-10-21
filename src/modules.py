@@ -140,7 +140,7 @@ def study_menu(decks):
 
      ''')
 
-# ///////////////// Study a Deck  /////////////////
+# ///////////////// Study a Deck /////////////////
 
 def init_deck(deck):
         
@@ -170,41 +170,61 @@ class Study:
     def __init__(self, for_deck):
         self.for_deck = for_deck
         self.card_num = 0
-        self.listener_active = False
+        # self.listener_active = False
         self.shuffled_deck = for_deck[:] 
         random.shuffle(self.shuffled_deck)
 
+    def show_card(self):
+        self.show_card_input = input("Press 'Z' and enter to show: ")
 
-    def on_key_release(self, key):
-
-        if key == Key.space:
-            self.listener_active = True
+        if self.show_card_input == 'Z':
             self.show_answer_and_options()
-            
-        elif key == Key.right:
-            self.listener_active = True
-            self.card_num += 1
-            if self.card_num < len(self.shuffled_deck):
-                self.card_display()
-            else:
-                self.listener.stop()
-                clear()
-                print("Deck finished")
-                Main()
-            
-        elif key == Key.left or key == Key.down:
-            self.listener_active = True
+
+
+    def progress_deck(self):
+        self.next_card = input("Press 'A' 'S' or 'D': ")
+
+        if self.next_card == 'A' or self.next_card == 'S':
             self.shuffled_deck.append(self.shuffled_deck[self.card_num])
             self.card_num += 1
-            if self.card_num < len(self.shuffled_deck):
-                self.card_display()
-            else:
-                self.listener.stop()
-                clear()
-                print("Deck finished")
-                Main()
+            self.card_display()
         else:
-            print(" - Incorrect Key pressed. Try Again")
+            self.card_num += 1
+            self.card_display()
+
+            
+
+
+
+
+    # def on_key_release(self, key):
+
+    #     if key == Key.space:
+    #         self.listener_active = True
+    #         self.show_answer_and_options()
+            
+    #     elif key == Key.right:
+    #         self.listener_active = True
+    #         self.card_num += 1
+    #         if self.card_num < len(self.shuffled_deck):
+    #             self.card_display()
+    #         else:
+    #             self.listener.stop() 
+    #             print("Deck finished")
+    #             Main()
+            
+    #     elif key == Key.left or key == Key.down:
+    #         self.listener_active = True
+    #         self.shuffled_deck.append(self.shuffled_deck[self.card_num])
+    #         self.card_num += 1
+    #         if self.card_num < len(self.shuffled_deck):
+    #             self.card_display()
+    #         else:
+    #             self.listener.stop() 
+    #             print("Deck finished")
+    #             Main()
+    #     else:
+    #         print(" - Incorrect Key pressed. Try Again")
 
 
 
@@ -221,11 +241,15 @@ class Study:
         -------------------------------------  
         ''')
 
-        print("Press spacebar to see answer")
+        # print("Press spacebar to see answer")
 
-        self.listener = Listener(on_release =self.on_key_release)
-        with self.listener as self.listener:
-            self.listener.join()
+        self.show_card()
+
+
+        # self.listener = Listener(on_release=self.on_key_release)
+        # with self.listener as self.listener:
+        #     self.listener.join()
+
             
             
     def show_answer_and_options(self):
@@ -245,9 +269,11 @@ class Study:
          
         [ Wrong ] [ Need Review ] [ Easy ]
 
-        [ left <]   [ down v ]   [ right > ]
+          [ A ]       [ S ]        [ D ]
         -------------------------------------  
         ''')
+
+        self.progress_deck()
 
 
 
