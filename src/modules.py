@@ -1,7 +1,6 @@
 import data
 from clear import clear # installed  clear
 import os
-import pandas as pd
 from pynput.keyboard import Key, Listener
 import random
 
@@ -44,8 +43,8 @@ class MenuLogo():
 class Main(MenuLogo):
     def __init__(self):
         super().__init__()
-        
-        print(self.logo)
+        clear()
+        print( self.logo )
         print(self.options)
         print(self.greeting)
 
@@ -143,39 +142,70 @@ def study_menu(decks):
 
 # ///////////////// Study a Deck  /////////////////
 
+def init_deck(deck):
+        
+    formatted_card_bank = []
+        
+    for k,v in deck.items():
+        deck_name = k
+        for card in v:
+            card_front = card["content"]
+            card_back = card["answer"]
+            new_card = Card(card_front, card_back, deck_name)
+            formatted_card_bank.append(new_card)
+
+        study_deck = Study(formatted_card_bank)
+        study_deck.card_display()
+
+
+
 class Card:
     def __init__(self, front, back, deck_name):
         self.front = front
         self.back = back
         self.deck_name = deck_name
-        
-class Study():
+
+
+class Study:
     def __init__(self, for_deck):
         self.for_deck = for_deck
-        self.card_num = 1
+        self.card_num = 0
         self.listener_active = False
         self.shuffled_deck = for_deck[:] 
         random.shuffle(self.shuffled_deck)
 
 
     def on_key_release(self, key):
+
         if key == Key.space:
             self.listener_active = True
             self.show_answer_and_options()
-        
+            
         elif key == Key.right:
             self.listener_active = True
             self.card_num += 1
-            self.card_display()
-        
+            if self.card_num < len(self.shuffled_deck):
+                self.card_display()
+            else:
+                self.listener.stop()
+                clear()
+                print("Deck finished")
+                Main()
+            
         elif key == Key.left or key == Key.down:
             self.listener_active = True
             self.shuffled_deck.append(self.shuffled_deck[self.card_num])
             self.card_num += 1
-            self.card_display()
- 
+            if self.card_num < len(self.shuffled_deck):
+                self.card_display()
+            else:
+                self.listener.stop()
+                clear()
+                print("Deck finished")
+                Main()
         else:
             print(" - Incorrect Key pressed. Try Again")
+
 
 
     def card_display(self):
@@ -184,28 +214,27 @@ class Study():
         print(f'''
         {current_card.deck_name}
         -------------------------------------             
-        {self.card_num} / {len(self.shuffled_deck)}
+        {self.card_num} / {len(self.shuffled_deck)} cards studied
 
         {current_card.front}
 
         -------------------------------------  
         ''')
 
-        print("Press enter to see Answer")
-        
-        
-        listener = Listener(on_release=self.on_key_release)
-        with listener as listener:
-            listener.join()
+        print("Press spacebar to see answer")
 
-
+        self.listener = Listener(on_release =self.on_key_release)
+        with self.listener as self.listener:
+            self.listener.join()
+            
+            
     def show_answer_and_options(self):
         clear()
         current_card = self.shuffled_deck[self.card_num]
         print(f'''
         {current_card.deck_name} 
         -------------------------------------             
-        {self.card_num} / {len(self.shuffled_deck)}       
+        {self.card_num} / {len(self.shuffled_deck)} cards studied   
 
         {current_card.front}
 
@@ -216,7 +245,7 @@ class Study():
          
         [ Wrong ] [ Need Review ] [ Easy ]
 
-        [CMD-Left]    [Space]    [CMD-Right]
+        [ left <]   [ down v ]   [ right > ]
         -------------------------------------  
         ''')
 
