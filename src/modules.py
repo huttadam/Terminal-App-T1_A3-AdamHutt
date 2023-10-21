@@ -2,7 +2,8 @@ import data
 from clear import clear # installed  clear
 import os
 import pandas as pd
-from pynput.keyboard import Key, Controller, Listener
+from pynput.keyboard import Key, Listener
+import textwrap
 
 
 # ///////////////// Navigation / Menu's /////////////////
@@ -132,7 +133,6 @@ def create_deck_from_file():
 
 
 def study_menu(decks):
-    # study_menu_template = [0, deck_name, len(deck_name) , 0] # number , Name, total cards in deck, Daily cards to learn
     for k,v in decks.items():
         print (f'''
              
@@ -150,8 +150,6 @@ class Card:
         self.total_card_num = total_card_num
         self.deck_name = deck_name
         
-
-
 class Study:
     def __init__(self, for_deck):
         self.for_deck = for_deck
@@ -162,27 +160,34 @@ class Study:
         if key == Key.enter:
             self.listener_active = True
             self.show_answer_and_options()
+        
+        elif key == Key.right:
+            self.listener_active = True
+            self.card_num += 1
+            self.card_display()
+
+        elif key == Key.esc:
+            self.listener_active = True
+            Main()
+
             
         else:
-            print("Incorrect Key pressed. Try Again")
+            print(" - Incorrect Key pressed. Try Again")
 
 
     def card_display(self):
+        clear()
         current_card = self.for_deck[self.card_num]
         print(f'''
-        -------------------------------------
+        {current_card.deck_name}
+        -------------------------------------             
         {self.card_num} / {current_card.total_card_num}
 
-                    {current_card.deck_name}
-
-                    {current_card.front}
-
-              
-                        
-              
-                        
+        {current_card.front}
+                           
         -------------------------------------  
         ''')
+
         print("Press enter to see Answer")
         
         
@@ -196,18 +201,19 @@ class Study:
         clear()
         current_card = self.for_deck[self.card_num]
         print(f'''
-        -------------------------------------
-        {self.card_num} / {current_card.total_card_num}
+        {current_card.deck_name} 
+        -------------------------------------             
+        {self.card_num} / {current_card.total_card_num}        
 
-                    {current_card.deck_name}
+        {current_card.front}
 
-                    {current_card.front}
-
-                    {current_card.back}
+        ------------------------------------- 
+         
+        {current_card.back}
                         
          
         [ Wrong ] [ Need Review ] [ Easy ]
-         
+
           [ X ]         [ A ]       [ D ]
         -------------------------------------  
         ''')
