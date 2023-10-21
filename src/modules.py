@@ -3,7 +3,7 @@ from clear import clear # installed  clear
 import os
 import pandas as pd
 from pynput.keyboard import Key, Listener
-import textwrap
+import random
 
 
 # ///////////////// Navigation / Menu's /////////////////
@@ -144,20 +144,22 @@ def study_menu(decks):
 # ///////////////// Study a Deck  /////////////////
 
 class Card:
-    def __init__(self, front, back, total_card_num, deck_name):
+    def __init__(self, front, back, deck_name):
         self.front = front
         self.back = back
-        self.total_card_num = total_card_num
         self.deck_name = deck_name
         
-class Study:
+class Study():
     def __init__(self, for_deck):
         self.for_deck = for_deck
         self.card_num = 1
         self.listener_active = False
+        self.shuffled_deck = for_deck[:] 
+        random.shuffle(self.shuffled_deck)
+
 
     def on_key_release(self, key):
-        if key == Key.enter:
+        if key == Key.space:
             self.listener_active = True
             self.show_answer_and_options()
         
@@ -165,26 +167,27 @@ class Study:
             self.listener_active = True
             self.card_num += 1
             self.card_display()
-
-        elif key == Key.esc:
+        
+        elif key == Key.left or key == Key.down:
             self.listener_active = True
-            Main()
-
-            
+            self.shuffled_deck.append(self.shuffled_deck[self.card_num])
+            self.card_num += 1
+            self.card_display()
+ 
         else:
             print(" - Incorrect Key pressed. Try Again")
 
 
     def card_display(self):
         clear()
-        current_card = self.for_deck[self.card_num]
+        current_card = self.shuffled_deck[self.card_num]
         print(f'''
         {current_card.deck_name}
         -------------------------------------             
-        {self.card_num} / {current_card.total_card_num}
+        {self.card_num} / {len(self.shuffled_deck)}
 
         {current_card.front}
-                           
+
         -------------------------------------  
         ''')
 
@@ -196,14 +199,13 @@ class Study:
             listener.join()
 
 
-
     def show_answer_and_options(self):
         clear()
-        current_card = self.for_deck[self.card_num]
+        current_card = self.shuffled_deck[self.card_num]
         print(f'''
         {current_card.deck_name} 
         -------------------------------------             
-        {self.card_num} / {current_card.total_card_num}        
+        {self.card_num} / {len(self.shuffled_deck)}       
 
         {current_card.front}
 
@@ -214,7 +216,7 @@ class Study:
          
         [ Wrong ] [ Need Review ] [ Easy ]
 
-          [ X ]         [ A ]       [ D ]
+        [CMD-Left]    [Space]    [CMD-Right]
         -------------------------------------  
         ''')
 
