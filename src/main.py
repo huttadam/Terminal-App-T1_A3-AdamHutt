@@ -25,8 +25,8 @@ def  main_run(deck):
 
         study_deck = modules.Study(formatted_card_bank)
         study_deck.card_display()
+
      
-    
 main_run(data.deck1)
 
 

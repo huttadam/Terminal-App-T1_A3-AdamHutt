@@ -2,9 +2,10 @@ import data
 from clear import clear # installed  clear
 import os
 import pandas as pd
+from pynput.keyboard import Key, Controller, Listener
 
 
-# from keyboard_listener import KeyboardListener, Combo, KeyWord # Installed pynput
+# ///////////////// Navigation / Menu's /////////////////
 
 class MenuLogo():
     def __init__(self):
@@ -83,6 +84,9 @@ class StudyMenu(MenuLogo):
 
 decks = {"Korean Example Deck": [{'card_num': 1, 'tot_daily_deck_count': 2, 'content': 'Hello', 'answer': '안녕하세요 (annyeonghaseyo)'}, {'card_num': 2, 'tot_daily_deck_count': 2, 'content': '안녕하세요 (annyeonghaseyo)', 'answer': 'Hello'}]}
 
+
+# ///////////////// Create a Deck  /////////////////
+
 def create_deck_from_file():
     
     new_deck =[]
@@ -137,7 +141,7 @@ def study_menu(decks):
 
      ''')
 
-# Allows Study to happen
+# ///////////////// Study a Deck  /////////////////
 
 class Card:
     def __init__(self, front, back, total_card_num, deck_name):
@@ -145,30 +149,68 @@ class Card:
         self.back = back
         self.total_card_num = total_card_num
         self.deck_name = deck_name
+        
 
 
 class Study:
     def __init__(self, for_deck):
         self.for_deck = for_deck
         self.card_num = 1
+        self.listener_active = False
+
+    def on_key_release(self, key):
+        if key == Key.enter:
+            self.listener_active = True
+            self.show_answer_and_options()
+            
+        else:
+            print("Incorrect Key pressed. Try Again")
+
 
     def card_display(self):
         current_card = self.for_deck[self.card_num]
         print(f'''
-            -------------------------------------
-              {self.card_num} / {current_card.total_card_num}
+        -------------------------------------
+        {self.card_num} / {current_card.total_card_num}
 
-                        {current_card.deck_name}
+                    {current_card.deck_name}
 
-                        {current_card.front}
+                    {current_card.front}
 
               
+                        
               
-              
-            -------------------------------------  
-              
-              
-              ''')
-        flip = input(f" Type F to flip :")
+                        
+        -------------------------------------  
+        ''')
+        print("Press enter to see Answer")
+        
+        
+        listener = Listener(on_release=self.on_key_release)
+        with listener as listener:
+            listener.join()
 
-df = pd.DataFrame()
+
+
+    def show_answer_and_options(self):
+        clear()
+        current_card = self.for_deck[self.card_num]
+        print(f'''
+        -------------------------------------
+        {self.card_num} / {current_card.total_card_num}
+
+                    {current_card.deck_name}
+
+                    {current_card.front}
+
+                    {current_card.back}
+                        
+         
+        [ Wrong ] [ Need Review ] [ Easy ]
+         
+          [ X ]         [ A ]       [ D ]
+        -------------------------------------  
+        ''')
+
+
+
