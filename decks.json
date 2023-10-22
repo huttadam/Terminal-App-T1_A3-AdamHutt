@@ -1,97 +1,13 @@
 [
   {
-    "Korean Example Deck": [
+    "General Knowledge Example": [
       {
-        "content": "Hello",
-        "answer": "\uc548\ub155\ud558\uc138\uc694 (annyeonghaseyo)"
+        "content": "The Capital of Burkina Faso",
+        "answer": "Ouagadougou"
       },
       {
-        "content": "\uc548\ub155\ud558\uc138\uc694 (annyeonghaseyo)",
-        "answer": "Hello"
-      }
-    ]
-  },
-  {
-    "Basic Japanese": [
-      {
-        "content": "Hello",
-        "answer": "\u3053\u3093\u306b\u3061\u306f (Konnichiwa)"
-      },
-      {
-        "content": "Good morning",
-        "answer": "\u304a\u306f\u3088\u3046 (Ohayou)"
-      },
-      {
-        "content": "Good night",
-        "answer": "\u304a\u3084\u3059\u307f\u306a\u3055\u3044 (Oyasuminasai)"
-      },
-      {
-        "content": "Thank you",
-        "answer": "\u3042\u308a\u304c\u3068\u3046 (Arigatou)"
-      },
-      {
-        "content": "You're welcome",
-        "answer": "\u3069\u3046\u3044\u305f\u3057\u307e\u3057\u3066 (Douitashimashite)"
-      },
-      {
-        "content": "Please",
-        "answer": "\u304a\u9858\u3044\u3057\u307e\u3059 (Onegaishimasu)"
-      },
-      {
-        "content": "Excuse me",
-        "answer": "\u3059\u307f\u307e\u305b\u3093 (Sumimasen)"
-      },
-      {
-        "content": "I'm sorry",
-        "answer": "\u3054\u3081\u3093\u306a\u3055\u3044 (Gomen nasai)"
-      },
-      {
-        "content": "How are you?",
-        "answer": "\u304a\u5143\u6c17\u3067\u3059\u304b\uff1f (Ogenki desu ka?)"
-      },
-      {
-        "content": "What's your name?",
-        "answer": "\u304a\u540d\u524d\u306f\u4f55\u3067\u3059\u304b\uff1f (Onamae wa nan desu ka?)"
-      },
-      {
-        "content": "\u3053\u3093\u306b\u3061\u306f (Konnichiwa)",
-        "answer": "Hello"
-      },
-      {
-        "content": "\u304a\u306f\u3088\u3046 (Ohayou)",
-        "answer": "Good morning"
-      },
-      {
-        "content": "\u304a\u3084\u3059\u307f\u306a\u3055\u3044 (Oyasuminasai)",
-        "answer": "Good night"
-      },
-      {
-        "content": "\u3042\u308a\u304c\u3068\u3046 (Arigatou)",
-        "answer": "Thank you"
-      },
-      {
-        "content": "\u3069\u3046\u3044\u305f\u3057\u307e\u3057\u3066 (Douitashimashite)",
-        "answer": "You're welcome"
-      },
-      {
-        "content": "\u304a\u9858\u3044\u3057\u307e\u3059 (Onegaishimasu)",
-        "answer": "Please"
-      },
-      {
-        "content": "\u3059\u307f\u307e\u305b\u3093 (Sumimasen)",
-        "answer": "Excuse me"
-      },
-      {
-        "content": "\u3054\u3081\u3093\u306a\u3055\u3044 (Gomen nasai)",
-        "answer": "I'm sorry"
-      },
-      {
-        "content": "\u304a\u5143\u6c17\u3067\u3059\u304b\uff1f (Ogenki desu ka?)",
-        "answer": "How are you?"
-      },
-      {
-        "content": "\u304a\u540d\u524d\u306f\u4f55\u3067\u3059\u304b\uff1f (Onamae wa nan desu ka?)",
-        "answer": "What's your name?"
+        "content": "Ouagadougou",
+        "answer": "The Capital of Burkina Faso"
       }
     ]
   }

@@ -1,4 +1,3 @@
-import data
 from clear import clear # installed  clear
 import os
 from pynput.keyboard import Key, Listener
@@ -7,6 +6,22 @@ import json
 
 
 # ///////////////// Navigation / Menu's /////////////////
+
+
+def get_lines_from_file(file_path):
+    try: 
+        while True:
+            if os.path.isfile(file_path):
+                with open(file_path, 'r') as c:
+                    return c.readlines()
+            else:
+                print("There was a problem reading")
+                break
+    except ValueError:
+        print("Please reformat the text must be - front, back - and another card on a new line ")
+    except TypeError:
+        print("I dunno man")
+
 
 class MenuLogo():
     def __init__(self):
@@ -49,72 +64,123 @@ class Main(MenuLogo):
         print(self.options)
         print(self.greeting)
 
-        user_main_choice = int(input("\nPlease choose your option and hit enter: "))
+   
 
-        match user_main_choice:
+        while True:
+            # try:
+            user_main_choice = int(input("Please choose your option with the number and hit enter: "))
+            if user_main_choice == 1:
+                StudyMenu()
+                break
+            elif user_main_choice == 2:
+                DeckCreator()
+                break
+            elif user_main_choice == 3:
+                pass
+            elif user_main_choice == 4:
+                pass
+            else:
+                print("Invalid Input, please try again")
+            
+        # except ValueError:
+        #     print("Please enter a number 1, 2, 3 or 4")
+        #     continue
 
-                case 1:
-                    StudyMenu()
-                    
-                # case 2:
-                #     pass # Create a deck
 
-                # case 3: 
-                #     pass # Edit a deck
-
-                # case 4: 
-                #     pass # Exit app
+            
                  
-
-
-
-
-
-
 
 class StudyMenu(MenuLogo):
     def __init__(self):
         super().__init__()
         clear()
         print(self.logo)
-        self.greeting = ("Please choose from list\n")
-
-
-        print(self.greeting)
-
 
         with open('decks.json', 'r') as json_file:
             d = json.load(json_file)
 
-        # print(d)
-
-        deck_keys = []
+        ava_deck_names = []
         for json_deck in d:
             for key in json_deck.keys():
-                deck_keys.append(key)
+                ava_deck_names.append(key)
 
     
         print("Available Decks:\n")
-        for i, key in enumerate(deck_keys, start=1):
+        for i, key in enumerate(ava_deck_names, start=1):
             print(f"[ {i} ] {key}\n")
 
-    
-        selected_index = int(input("\nPlease choose with the number and hit enter: "))
-        if 1 <= selected_index <= len(deck_keys):
-            selected_deck = d[selected_index - 1] 
-            CardFormatter.init_deck(selected_deck)
-        else:
-            print("Invalid choice. Please select a valid deck.")
-
-
-
-
-
-
+        while True:
+            # try:
+            selected_index = int(input("\nPlease choose with the number and hit enter: "))
+            if 1 <= selected_index <= len(ava_deck_names):
+                selected_deck = d[selected_index - 1]
+                CardFormatter.init_deck(selected_deck)
+                
+            else:
+                print("Invalid choice. Please choose with the corresponding number.")
+            
+            # except ValueError:
+            #     print("Please input a number")
+            #     continue
 
 
 
 # ///////////////// Create a Deck  /////////////////
+
+class DeckCreator(MenuLogo):
+        
+    def __init__(self):
+        super().__init__()
+        clear()
+        print(self.logo)
+        self.greeting = ("Please choose from list\n")
+        print(self.greeting)
+        print('''
+
+        [ 1 ] = Create a deck with .txt file 
+
+        [ 2 ] = Create a new deck
+
+        [ 3 ] = Create a Card and add to deck
+
+        [ 4 ] = Main Menu
+        ''')
+
+        switch = True
+
+        while switch == True:
+            try:
+                create_menu_choice = int(input("Please choose with the number and hit enter: "))
+                if create_menu_choice == 1:
+                    clear()
+                    print(self.logo)
+                    print(self.greeting)
+                    switch = False
+                    create_deck_from_file()
+                    break
+                        
+                        
+
+                    # elif create_menu_choice == 2:
+                    #     clear()
+                    #     pass
+
+                    # elif create_menu_choice == 3:
+                    #     clear()
+                    #     pass
+
+                    # elif create_menu_choice == 4:
+                    #     clear()
+                    #     pass
+                    
+                    # else:
+                    #     print("Invalid Input, please try again")
+
+            except TypeError:
+                print("Invalid Input, please enter number -69")
+                continue
+
+
 
 def create_deck_from_file():
     
@@ -122,14 +188,12 @@ def create_deck_from_file():
 
     file_path = input("Enter the path or name of the text file: ")
 
-    if os.path.isfile(file_path):
-        with open(file_path, 'r') as c:
-            lines = c.readlines()
-    else:
-        print("File not found. Please ennter a valid file path or name")
+    lines_from_file = get_lines_from_file(file_path)
+
+    print(lines_from_file)
 
 
-    for index,line in enumerate(lines):
+    for index,line in enumerate(lines_from_file):
         content, answer = line.strip().split(', ')
         index += 1
         card_info = {
@@ -138,7 +202,7 @@ def create_deck_from_file():
         }
         new_deck.append(card_info)
 
-    for index,line in enumerate(lines):
+    for index,line in enumerate(lines_from_file):
         content,answer = line.strip().split(', ')
         index += 1
         card_info = {
@@ -146,40 +210,52 @@ def create_deck_from_file():
             "answer": content,  # answer Swapped to create another card
         }
         new_deck.append(card_info)
+    
+    print("post enumerate loop")
+
+    # print(new_deck)
 
 
-    while True:
-        new_name = input("What do you want to name the deck?: ")
+    new_name = input("What do you want to name the deck?:")
 
-        deck_exists = False
-
-
-        for deck in data.decks:
-            for key in deck.keys():
-                if new_name == key:
-                    deck_exists = True
-                    break 
-
-        if deck_exists:
-            print("The deck name already exists.")
-
-        else:
-            data.decks.append({new_name: new_deck})
-            print(f"Deck '{new_name}' has been created.")
-            break
-    print(data.decks)
     
 
+    with open('decks.json', 'r') as json_file:
+        d = json.load(json_file)
+            
+    for deck in d:
+        for key in deck.keys():
+            if new_name == key:
+                deck_exists = True
+                break 
+
+    if deck_exists:
+        print("The deck name already exists.")
+
+    else:
+        template_created_dict =({new_name: new_deck})
+        d.append(template_created_dict)
+        with open('decks.json', 'w') as json_file:
+            json.dump(d, json_file, indent=2)
+        print(f"Deck '{new_name}' has been created. \n")
+
+    
+        print('''
+
+        [ 1 ] = Study decks 
+
+        [ 2 ] = Main Menu
+
+        ''') 
+
+        post_create_option = int(input("Please choose with the number and hit enter:"))
 
 
-def study_menu(decks):
-    for k,v in decks.items():
-        print (f'''
-             
-        - { k } | Cards to Study :   {len(v)}
+        if post_create_option == 1:
+            StudyMenu()
+        elif post_create_option == 2:
+            Main()
 
-
-     ''')
 
 # ///////////////// Study a Deck /////////////////
 
@@ -225,19 +301,17 @@ class Study:
 
     def progress_deck(self):
         self.next_card = input("Press 'A' 'S' or 'D': ")
+        print("type Q to exit")
 
         if self.next_card == 'A' or self.next_card == 'S':
             self.shuffled_deck.append(self.shuffled_deck[self.card_num])
             self.card_num += 1
             self.card_display()
+        elif self.next_card == 'Q':
+            Main()
         else:
             self.card_num += 1
             self.card_display()
-
-            
-
-
-
 
     # def on_key_release(self, key):
 
@@ -268,8 +342,6 @@ class Study:
     #     else:
     #         print(" - Incorrect Key pressed. Try Again")
 
-
-
     def card_display(self):
         clear()
         current_card = self.shuffled_deck[self.card_num]
@@ -287,13 +359,10 @@ class Study:
 
         self.show_card()
 
-
         # self.listener = Listener(on_release=self.on_key_release)
         # with self.listener as self.listener:
         #     self.listener.join()
-
-            
-            
+      
     def show_answer_and_options(self):
         clear()
         current_card = self.shuffled_deck[self.card_num]
