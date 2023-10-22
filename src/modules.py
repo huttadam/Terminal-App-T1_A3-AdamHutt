@@ -3,6 +3,7 @@ from clear import clear # installed  clear
 import os
 from pynput.keyboard import Key, Listener
 import random
+import json
 
 
 # ///////////////// Navigation / Menu's /////////////////
@@ -44,7 +45,7 @@ class Main(MenuLogo):
     def __init__(self):
         super().__init__()
         clear()
-        print( self.logo )
+        print(self.logo)
         print(self.options)
         print(self.greeting)
 
@@ -65,24 +66,52 @@ class Main(MenuLogo):
                 #     pass # Exit app
                  
 
+
+
+
+
+
+
 class StudyMenu(MenuLogo):
     def __init__(self):
         super().__init__()
-
+        clear()
         print(self.logo)
-        self.greeting = ("Please choose from list\nPlease go to 'Edit a Deck' to change card amount")
-        self.options = '''
+        self.greeting = ("Please choose from list\n")
 
-        [ 1 ] = LIST OF DECKS TO CHOOSE
-
-
-        '''
 
         print(self.greeting)
-        print(self.options)
 
 
-decks = {"Korean Example Deck": [{'card_num': 1, 'tot_daily_deck_count': 2, 'content': 'Hello', 'answer': '안녕하세요 (annyeonghaseyo)'}, {'card_num': 2, 'tot_daily_deck_count': 2, 'content': '안녕하세요 (annyeonghaseyo)', 'answer': 'Hello'}]}
+        with open('decks.json', 'r') as json_file:
+            d = json.load(json_file)
+
+        # print(d)
+
+        deck_keys = []
+        for json_deck in d:
+            for key in json_deck.keys():
+                deck_keys.append(key)
+
+    
+        print("Available Decks:\n")
+        for i, key in enumerate(deck_keys, start=1):
+            print(f"[ {i} ] {key}\n")
+
+    
+        selected_index = int(input("\nPlease choose with the number and hit enter: "))
+        if 1 <= selected_index <= len(deck_keys):
+            selected_deck = d[selected_index - 1] 
+            CardFormatter.init_deck(selected_deck)
+        else:
+            print("Invalid choice. Please select a valid deck.")
+
+
+
+
+
+
+
 
 
 # ///////////////// Create a Deck  /////////////////
@@ -104,8 +133,6 @@ def create_deck_from_file():
         content, answer = line.strip().split(', ')
         index += 1
         card_info = {
-            "card_num": index * 2,  # card number (unique)
-            "tot_daily_deck_count": len(lines) * 2,  # out of the total cards to learn from today
             "content": content,  # content / Question
             "answer": answer,  # Answer
         }
@@ -115,20 +142,34 @@ def create_deck_from_file():
         content,answer = line.strip().split(', ')
         index += 1
         card_info = {
-            "card_num": index * 2 - 1,  # card number (unique)
-            "tot_daily_deck_count": len(lines) * 2,  # out of the total cards to learn from today
             "content": answer,  # content swapped to create another card
             "answer": content,  # answer Swapped to create another card
         }
         new_deck.append(card_info)
 
-    new_name = input("what do you want to name the deck?: ")
 
-    if new_name not in decks:
-        decks[new_name] = new_deck
+    while True:
+        new_name = input("What do you want to name the deck?: ")
+
+        deck_exists = False
 
 
-    return decks  
+        for deck in data.decks:
+            for key in deck.keys():
+                if new_name == key:
+                    deck_exists = True
+                    break 
+
+        if deck_exists:
+            print("The deck name already exists.")
+
+        else:
+            data.decks.append({new_name: new_deck})
+            print(f"Deck '{new_name}' has been created.")
+            break
+    print(data.decks)
+    
+
 
 
 def study_menu(decks):
@@ -142,20 +183,21 @@ def study_menu(decks):
 
 # ///////////////// Study a Deck /////////////////
 
-def init_deck(deck):
-        
-    formatted_card_bank = []
-        
-    for k,v in deck.items():
-        deck_name = k
-        for card in v:
-            card_front = card["content"]
-            card_back = card["answer"]
-            new_card = Card(card_front, card_back, deck_name)
-            formatted_card_bank.append(new_card)
+class CardFormatter:
+    def init_deck(deck):
+            
+        formatted_card_bank = []
+            
+        for k,v in deck.items():
+            deck_name = k
+            for card in v:
+                card_front = card["content"]
+                card_back = card["answer"]
+                new_card = Card(card_front, card_back, deck_name)
+                formatted_card_bank.append(new_card)
 
-        study_deck = Study(formatted_card_bank)
-        study_deck.card_display()
+            study_deck = Study(formatted_card_bank)
+            study_deck.card_display()
 
 
 
