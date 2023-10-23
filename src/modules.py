@@ -8,8 +8,6 @@ import json
 # ///////////////// Navigation / Menu's /////////////////
 
 
-
-
 def get_lines_from_file(file_path):
     try: 
         while True:
@@ -44,13 +42,14 @@ class MenuLogo():
         '''
 
         self.greeting = ("Welcome to the Flash Card App , customize your study and start now ! \n")
+        self.instructions =("Please choose from the list of options below\n")
         self.options = '''
 
         [ 1 ] = Study a Deck
 
-        [ 2 ] = Create a Deck / Create a Card
+        [ 2 ] = Create a Deck / Add Cards
 
-        [ 3 ] = Edit a Deck / Edit a Card
+        [ 3 ] = Edit Deck
 
         [ 4 ] = Exit the app
 
@@ -58,16 +57,36 @@ class MenuLogo():
         '''
 
 
+    def change_screen(self):
+        clear()
+        print(self.logo)
+        print(self.instructions)
+        
+
+    
+    def display_available_decks(self):
+        with open('decks.json', 'r') as json_file:
+            self.x = json.load(json_file)
+
+        self.ava_deck_names = []
+        for card_name_deck in self.x:
+            for key in card_name_deck.keys():
+                self.ava_deck_names.append(key)
+
+
+        print("Available Decks:\n")
+        for i, key in enumerate(self.ava_deck_names, start=1):
+            print(f"[ {i} ] {key}\n")
+        
 
 
 class Main(MenuLogo):
     def __init__(self):
         super().__init__()
-        clear()
-        print(self.logo)
-        print(self.options)
-        print(self.greeting)
 
+        self.change_screen()
+
+        print(self.options)
    
 
         while True:
@@ -91,33 +110,24 @@ class Main(MenuLogo):
         #     continue
 
 
-            
-                 
+
+
+
 
 class StudyMenu(MenuLogo):
     def __init__(self):
         super().__init__()
-        clear()
-        print(self.logo)
+        
+        self.change_screen()
 
-        with open('decks.json', 'r') as json_file:
-            d = json.load(json_file)
 
-        ava_deck_names = []
-        for json_deck in d:
-            for key in json_deck.keys():
-                ava_deck_names.append(key)
-
-    
-        print("Available Decks:\n")
-        for i, key in enumerate(ava_deck_names, start=1):
-            print(f"[ {i} ] {key}\n")
+        self.display_available_decks()
 
         while True:
             # try:
             selected_index = int(input("\nPlease choose with the number and hit enter: "))
-            if 1 <= selected_index <= len(ava_deck_names):
-                selected_deck = d[selected_index - 1]
+            if 1 <= selected_index <= len(self.ava_deck_names):
+                selected_deck = self.x[selected_index - 1]
                 CardFormatter.init_deck(selected_deck)
                 
             else:
@@ -126,6 +136,9 @@ class StudyMenu(MenuLogo):
             # except ValueError:
             #     print("Please input a number")
             #     continue
+    
+
+
 
 
 
@@ -135,10 +148,9 @@ class DeckCreator(MenuLogo):
         
     def __init__(self):
         super().__init__()
-        clear()
-        print(self.logo)
-        self.greeting = ("Please choose from list\n")
-        print(self.greeting)
+
+        self.change_screen()
+
         print('''
 
         [ 1 ] = Create a deck with .txt file 
@@ -154,19 +166,17 @@ class DeckCreator(MenuLogo):
         # try:
         create_menu_choice = int(input("Please choose with the number and hit enter: "))
         if create_menu_choice == 1:
-            clear()
-            print(self.logo)
-            print(self.greeting)
+            self.change_screen()
             push_deck_to_Json(create_deck_from_file())
             
                     
         elif create_menu_choice == 2:
-            clear()
-            pass
+            self.change_screen()
+            push_deck_to_Json([{}])
 
         elif create_menu_choice == 3:
-            clear()
-            pass
+            self.change_screen()
+            self.create_and_add_card()
 
         elif create_menu_choice == 4:
             clear()
@@ -194,9 +204,11 @@ class DeckCreator(MenuLogo):
 
         print('''
 
-        [ 1 ] = Study decks 
+        [ 1 ] = Study decks
+              
+        [ 2 ] = Add Cards to deck
 
-        [ 2 ] = Main Menu
+        [ 3 ] = Main Menu
 
         ''') 
 
@@ -206,9 +218,31 @@ class DeckCreator(MenuLogo):
         if post_create_option == 1:
             StudyMenu()
         elif post_create_option == 2:
+            pass
+
+        elif post_create_option == 3:
             Main()
 
-            
+    def create_and_add_card(self):
+        self.display_available_decks()
+        while True:
+            create_add_choice = int(input("\nPlease choose with the number and hit enter: "))
+            if 1 <= create_add_choice <= len(self.ava_deck_names):
+                selected_deck = self.x[create_add_choice - 1]
+                for val in selected_deck.values():
+                    add_card_fro = input("Please write your main content (front): ")
+                    add_card_back = input("Please write your answer (back): ")
+                    new_card_1 = create_and_reverse(add_card_fro, add_card_back)
+                    new_card_2 = create_and_reverse(add_card_back, add_card_fro)
+                    selected_deck.update(new_card_1)
+                    selected_deck.update(new_card_2)
+
+                    with open('decks.json', 'w') as json_file:
+                        json.dump(selected_deck, json_file, indent=2)
+
+            else:
+                print("Invalid choice. Please choose with the corresponding number.")
+
 
 
 
@@ -240,8 +274,6 @@ def create_deck_from_file():
     return new_deck
 
 
-
-
 def push_deck_to_Json(deck_cards):
     
     while True:
@@ -268,8 +300,12 @@ def push_deck_to_Json(deck_cards):
         else:
             print("This deck name already exists. Please enter another.\n")
 
-    
-    
+
+
+
+
+
+
 
 
 
@@ -427,6 +463,4 @@ class Study:
         ''')
 
         self.progress_deck()
-
-
 
