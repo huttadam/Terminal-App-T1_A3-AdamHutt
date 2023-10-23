@@ -229,16 +229,24 @@ class DeckCreator(MenuLogo):
             create_add_choice = int(input("\nPlease choose with the number and hit enter: "))
             if 1 <= create_add_choice <= len(self.ava_deck_names):
                 selected_deck = self.x[create_add_choice - 1]
-                for val in selected_deck.values():
+                for key, val in selected_deck.items():
                     add_card_fro = input("Please write your main content (front): ")
                     add_card_back = input("Please write your answer (back): ")
                     new_card_1 = create_and_reverse(add_card_fro, add_card_back)
                     new_card_2 = create_and_reverse(add_card_back, add_card_fro)
-                    selected_deck.update(new_card_1)
-                    selected_deck.update(new_card_2)
+
+                    print(new_card_1)
+                    print(new_card_2)
+
+                    print(selected_deck)
+
+                    selected_deck[key].append(new_card_1)
+                    selected_deck[key].append(new_card_2)
+
+                    print(selected_deck)
 
                     with open('decks.json', 'w') as json_file:
-                        json.dump(selected_deck, json_file, indent=2)
+                        json.dump(self.x, json_file, indent=2)
 
             else:
                 print("Invalid choice. Please choose with the corresponding number.")

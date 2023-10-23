@@ -1,7 +1,50 @@
-{
-  "TEst": [
-    {}
-  ],
-  "content": "This is your concious speaking",
-  "answer": "Hello"
-}
+[
+  {
+    "General Knowledge Example": [
+      {
+        "content": "The Capital of Burkina Faso",
+        "answer": "Ouagadougou"
+      },
+      {
+        "content": "Ouagadougou",
+        "answer": "The Capital of Burkina Faso"
+      }
+    ]
+  },
+  {
+    "Test": [
+      {
+        "content": "Day",
+        "answer": "hello"
+      },
+      {
+        "content": "hello",
+        "answer": "Day"
+      },
+      {
+        "content": "G;day",
+        "answer": "hello"
+      },
+      {
+        "content": "hello",
+        "answer": "G;day"
+      },
+      {
+        "content": "What is love?",
+        "answer": "Baby, dont hurt me"
+      },
+      {
+        "content": "Baby, dont hurt me",
+        "answer": "What is love?"
+      },
+      {
+        "content": "TEST 2",
+        "answer": "TEST 2"
+      },
+      {
+        "content": "TEST 2",
+        "answer": "TEST 2"
+      }
+    ]
+  }
+]
