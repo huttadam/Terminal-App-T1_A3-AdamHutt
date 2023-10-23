@@ -15,12 +15,14 @@ def get_lines_from_file(file_path):
                 with open(file_path, 'r') as c:
                     return c.readlines()
             else:
-                print("There was a problem reading")
+                print("There was a problem reading , Please check and enter again.")
+                create_deck_from_file()
                 break
+    
     except ValueError:
         print("Please reformat the text must be - front, back - and another card on a new line ")
-    except TypeError:
-        print("I dunno man")
+
+
 
 
 class MenuLogo():
@@ -146,40 +148,71 @@ class DeckCreator(MenuLogo):
         [ 4 ] = Main Menu
         ''')
 
-        switch = True
+        
 
-        while switch == True:
-            try:
-                create_menu_choice = int(input("Please choose with the number and hit enter: "))
-                if create_menu_choice == 1:
-                    clear()
-                    print(self.logo)
-                    print(self.greeting)
-                    switch = False
-                    create_deck_from_file()
-                    break
+        
+
+        while True:
+            create_menu_choice = int(input("Please choose with the number and hit enter: "))
+            if create_menu_choice == 1:
+                clear()
+                print(self.logo)
+                print(self.greeting)
+                create_deck_from_file()
+                break
                         
                         
 
-                    # elif create_menu_choice == 2:
-                    #     clear()
-                    #     pass
+            elif create_menu_choice == 2:
+                clear()
+                pass
 
-                    # elif create_menu_choice == 3:
-                    #     clear()
-                    #     pass
+            elif create_menu_choice == 3:
+                clear()
+                pass
 
-                    # elif create_menu_choice == 4:
-                    #     clear()
-                    #     pass
-                    
-                    # else:
-                    #     print("Invalid Input, please try again")
+            elif create_menu_choice == 4:
+                clear()
+                pass
+            
+            else:
+                print("Invalid Input, please try again")
 
-            except TypeError:
-                print("Invalid Input, please enter number -69")
-                continue
+        while True:
+            new_name = input("What do you want to name the deck?: ")
+            if push_deck_to_Json(new_name,create_deck_from_file()):
+                break
+            else:
+                print("This deck already exists, please enter another \n")
 
+
+
+            print('''
+
+            [ 1 ] = Study decks 
+
+            [ 2 ] = Main Menu
+
+            ''') 
+
+            post_create_option = int(input("Please choose with the number and hit enter:"))
+
+
+            if post_create_option == 1:
+                StudyMenu()
+            elif post_create_option == 2:
+                Main()
+
+            
+
+
+
+def create_and_reverse(content,answer):
+    card_info ={
+        "content":content,
+        "answer": answer
+    }
+    return card_info
 
 
 def create_deck_from_file():
@@ -189,72 +222,65 @@ def create_deck_from_file():
     file_path = input("Enter the path or name of the text file: ")
 
     lines_from_file = get_lines_from_file(file_path)
-
-    print(lines_from_file)
-
-
-    for index,line in enumerate(lines_from_file):
-        content, answer = line.strip().split(', ')
-        index += 1
-        card_info = {
-            "content": content,  # content / Question
-            "answer": answer,  # Answer
-        }
-        new_deck.append(card_info)
-
-    for index,line in enumerate(lines_from_file):
-        content,answer = line.strip().split(', ')
-        index += 1
-        card_info = {
-            "content": answer,  # content swapped to create another card
-            "answer": content,  # answer Swapped to create another card
-        }
-        new_deck.append(card_info)
+    try:
+        for line in lines_from_file:
+            content, answer = line.strip().split('/')
+            new_deck.append(create_and_reverse(content,answer))
+            new_deck.append(create_and_reverse(answer,content))
     
-    print("post enumerate loop")
+    except ValueError:
+        print("formatting error, please check .txt file and ensure only / ")
+        create_deck_from_file()
 
-    # print(new_deck)
+    return new_deck
 
 
-    new_name = input("What do you want to name the deck?:")
 
-    
+
+def push_deck_to_Json(name_input, deck_cards):
 
     with open('decks.json', 'r') as json_file:
         d = json.load(json_file)
-            
+
     for deck in d:
         for key in deck.keys():
-            if new_name == key:
-                deck_exists = True
-                break 
-
-    if deck_exists:
-        print("The deck name already exists.")
-
-    else:
-        template_created_dict =({new_name: new_deck})
-        d.append(template_created_dict)
-        with open('decks.json', 'w') as json_file:
-            json.dump(d, json_file, indent=2)
-        print(f"Deck '{new_name}' has been created. \n")
-
+            if name_input not in deck.keys():
+                template_created_dict =({name_input: deck_cards})
+                d.append(template_created_dict)
+                
+                with open('decks.json', 'w') as json_file:
+                    json.dump(d, json_file, indent=2)
+                
+                print(f"Deck '{name_input}' has been created. \n")
+                return True
     
-        print('''
-
-        [ 1 ] = Study decks 
-
-        [ 2 ] = Main Menu
-
-        ''') 
-
-        post_create_option = int(input("Please choose with the number and hit enter:"))
+    return False
 
 
-        if post_create_option == 1:
-            StudyMenu()
-        elif post_create_option == 2:
-            Main()
+# while True:
+#     new_name = input("What do you want to name the deck?: ")
+#     if push_deck_to_Json(new_name,create_deck_from_file()):
+#         break
+#     else:
+#         print("This deck already exists, please enter another \n")
+
+
+
+#     print('''
+
+#     [ 1 ] = Study decks 
+
+#     [ 2 ] = Main Menu
+
+#     ''') 
+
+#     post_create_option = int(input("Please choose with the number and hit enter:"))
+
+
+#     if post_create_option == 1:
+#         StudyMenu()
+#     elif post_create_option == 2:
+#         Main()
 
 
 # ///////////////// Study a Deck /////////////////
