@@ -10,5 +10,25 @@
         "answer": "The Capital of Burkina Faso"
       }
     ]
+  },
+  {
+    "Test": [
+      {
+        "content": "Day",
+        "answer": "hello"
+      },
+      {
+        "content": "hello",
+        "answer": "Day"
+      },
+      {
+        "content": "G;day",
+        "answer": "hello"
+      },
+      {
+        "content": "hello",
+        "answer": "G;day"
+      }
+    ]
   }
 ]

@@ -8,6 +8,8 @@ import json
 # ///////////////// Navigation / Menu's /////////////////
 
 
+
+
 def get_lines_from_file(file_path):
     try: 
         while True:
@@ -149,59 +151,62 @@ class DeckCreator(MenuLogo):
         ''')
 
         
-
-        
-
-        while True:
-            create_menu_choice = int(input("Please choose with the number and hit enter: "))
-            if create_menu_choice == 1:
-                clear()
-                print(self.logo)
-                print(self.greeting)
-                create_deck_from_file()
-                break
-                        
-                        
-
-            elif create_menu_choice == 2:
-                clear()
-                pass
-
-            elif create_menu_choice == 3:
-                clear()
-                pass
-
-            elif create_menu_choice == 4:
-                clear()
-                pass
+        # try:
+        create_menu_choice = int(input("Please choose with the number and hit enter: "))
+        if create_menu_choice == 1:
+            clear()
+            print(self.logo)
+            print(self.greeting)
+            push_deck_to_Json(create_deck_from_file())
             
-            else:
-                print("Invalid Input, please try again")
+                    
+        elif create_menu_choice == 2:
+            clear()
+            pass
 
-        while True:
-            new_name = input("What do you want to name the deck?: ")
-            if push_deck_to_Json(new_name,create_deck_from_file()):
-                break
-            else:
-                print("This deck already exists, please enter another \n")
+        elif create_menu_choice == 3:
+            clear()
+            pass
+
+        elif create_menu_choice == 4:
+            clear()
+            pass
+        
+        else:
+            print("Invalid Input, please try again")
+
+        # except ValueError:
+        #     print("Incorrect input, try again")
+        
+        # except TypeError:
+        #     print("Incorrect input, try again")
+
+
+        # while True:
+
+        #     new_name = input("What do you want to name the deck?: ")
+        #     if push_deck_to_Json(new_name):
+        #         break
+        #     else:
+        #         print("This deck already exists, please enter another \n")
 
 
 
-            print('''
+        print('''
 
-            [ 1 ] = Study decks 
+        [ 1 ] = Study decks 
 
-            [ 2 ] = Main Menu
+        [ 2 ] = Main Menu
 
-            ''') 
+        ''') 
 
-            post_create_option = int(input("Please choose with the number and hit enter:"))
+        post_create_option = int(input("Please choose with the number and hit enter:"))
 
 
-            if post_create_option == 1:
-                StudyMenu()
-            elif post_create_option == 2:
-                Main()
+        if post_create_option == 1:
+            StudyMenu()
+        elif post_create_option == 2:
+            Main()
 
             
 
@@ -237,24 +242,35 @@ def create_deck_from_file():
 
 
 
-def push_deck_to_Json(name_input, deck_cards):
-
-    with open('decks.json', 'r') as json_file:
-        d = json.load(json_file)
-
-    for deck in d:
-        for key in deck.keys():
-            if name_input not in deck.keys():
-                template_created_dict =({name_input: deck_cards})
-                d.append(template_created_dict)
-                
-                with open('decks.json', 'w') as json_file:
-                    json.dump(d, json_file, indent=2)
-                
-                print(f"Deck '{name_input}' has been created. \n")
-                return True
+def push_deck_to_Json(deck_cards):
     
-    return False
+    while True:
+        name_input = input("What do you want to call your deck?: ")
+        with open('decks.json', 'r') as json_file:
+            d = json.load(json_file)
+
+        name_exists = False
+        for deck in d:
+            for key in deck.keys():
+                if name_input in deck.keys():
+                    name_exists = True
+                    break
+
+        if not name_exists:
+            template_created_dict = {name_input: deck_cards}
+            d.append(template_created_dict)
+
+            with open('decks.json', 'w') as json_file:
+                json.dump(d, json_file, indent=2)
+
+            print(f"Deck '{name_input}' has been created.\n")
+            break
+        else:
+            print("This deck name already exists. Please enter another.\n")
+
+    
+    
+
 
 
 # while True:
