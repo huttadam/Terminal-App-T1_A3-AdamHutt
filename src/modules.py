@@ -348,7 +348,7 @@ class CardFormatter:
                 formatted_card_bank.append(new_card)
 
             study_deck = Study(formatted_card_bank)
-            study_deck.card_display()
+            # study_deck.card_display()
 
 
 
@@ -367,55 +367,70 @@ class Study:
         self.shuffled_deck = for_deck[:] 
         random.shuffle(self.shuffled_deck)
 
+    # def test(self):
+    #     for card_num in range(len(self.shuffled_deck)):
+    #         current_card = self.shuffled_deck[card_num]
+    #         clear()
+    #         print(f'''
+    #         {current_card.deck_name}
+    #         -------------------------------------
+    #         {card_num + 1} / {len(self.shuffled_deck)} cards studied
+
+    #         {current_card.front}
+
+    #         -------------------------------------
+    #         ''')
+    #         show_card_input = input("Press 'Z' to show the answer: ").lower()
+
+    #         if show_card_input == 'z':
+    #             clear()
+    #             print(f'''
+    #             {current_card.deck_name}
+    #             -------------------------------------
+    #             {card_num + 1} / {len(self.shuffled_deck)} cards studied
+
+    #             {current_card.front}
+
+    #             -------------------------------------
+
+    #             {current_card.back}
+
+    #             [ Wrong ] [ Need Review ] [ Easy ]
+
+    #             [ A ]       [ S ]        [ D ]
+    #             -------------------------------------
+    #             ''')
+    #             next_card = input("Press 'A' to move to the next card, 'Q' to exit: ").lower()
+                
+    #             if next_card == 'q':
+    #                 print("Deck finished.")
+    #                 Main()
+
+
+    
+
     def show_card(self):
         self.show_card_input = input("Press 'Z' and enter to show: ")
 
-        if self.show_card_input == 'Z':
+        if self.show_card_input.upper() == 'Z':
             self.show_answer_and_options()
 
 
     def progress_deck(self):
-        self.next_card = input("Press 'A' 'S' or 'D': ")
         print("type Q to exit")
+        self.next_card = input("Press 'A' 'S' or 'D': ")
+        
 
-        if self.next_card == 'A' or self.next_card == 'S':
+        if self.next_card.upper() == 'A' or self.next_card.upper() == 'S':
             self.shuffled_deck.append(self.shuffled_deck[self.card_num])
             self.card_num += 1
             self.card_display()
-        elif self.next_card == 'Q':
+        elif self.next_card.upper() == 'Q':
             Main()
-        else:
+        elif self.next_card.upper() == 'D':
             self.card_num += 1
             self.card_display()
 
-    # def on_key_release(self, key):
-
-    #     if key == Key.space:
-    #         self.listener_active = True
-    #         self.show_answer_and_options()
-            
-    #     elif key == Key.right:
-    #         self.listener_active = True
-    #         self.card_num += 1
-    #         if self.card_num < len(self.shuffled_deck):
-    #             self.card_display()
-    #         else:
-    #             self.listener.stop() 
-    #             print("Deck finished")
-    #             Main()
-            
-    #     elif key == Key.left or key == Key.down:
-    #         self.listener_active = True
-    #         self.shuffled_deck.append(self.shuffled_deck[self.card_num])
-    #         self.card_num += 1
-    #         if self.card_num < len(self.shuffled_deck):
-    #             self.card_display()
-    #         else:
-    #             self.listener.stop() 
-    #             print("Deck finished")
-    #             Main()
-    #     else:
-    #         print(" - Incorrect Key pressed. Try Again")
 
     def card_display(self):
         clear()
@@ -430,7 +445,6 @@ class Study:
         -------------------------------------  
         ''')
 
-        # print("Press spacebar to see answer")
 
         self.show_card()
 
@@ -472,7 +486,7 @@ class EditMenu(MenuLogo):
 
         [ 1 ] = Change Name of deck 
 
-        [ 2 ] = Edit a Card in a deck
+        [ 2 ] = Delete a Card in a deck
 
         [ 3 ] = Return to Main Menu
 
@@ -490,11 +504,13 @@ class EditMenu(MenuLogo):
                      
         elif edit_menu_choice == 2:
             self.change_screen_to_menu()
-            push_deck_to_Json([{}])
+            print("Which deck is the card you would you like to change? \n")
+            self.display_available_decks()
+            self.delete_card_in_deck()
+  
 
         elif edit_menu_choice == 3:
             self.change_screen_to_menu()
-            self.create_and_add_card()
         
         else:
             print("Invalid Input, please try again")
@@ -534,25 +550,29 @@ class EditMenu(MenuLogo):
 
         EditMenu()
 
-# ... (rest of the class and methods)
-
-
-
-
-
-  
     
+    def delete_card_in_deck(self):
+                while True:
+                    # try:
+                    del_card_deck_choice = int(input("\nPlease choose the deck the card contains: "))
+                    if 1 <= del_card_deck_choice <= len(self.ava_deck_names):
+                        selected_deck = self.x[del_card_deck_choice - 1]
+                        for key,value in selected_deck.items():
+                            self.change_screen_to_menu()
+                            print(f"Cards in deck: {key} \n")
+                            for i, deck in enumerate(value, start=1):
+                                print(f"[ {i} ]: {deck}\n")
+                            edit_c_number = input("\nWhat number card would you like to delete? ")
+                            if edit_c_number == i:
+                                print("great success!") 
+                                
 
-                # EditMenu()
 
-    # def display_available_decks(self):
-    #     with open('decks.json', 'r') as json_file:
-    #         self.x = json.load(json_file)
 
-    #     self.ava_deck_names = []
-    #     for self.card_name_deck in self.x:
-    #         for key in self.card_name_deck.keys():
-    #             self.ava_deck_names.append(key)
+
+
+
+
 
                 
 
