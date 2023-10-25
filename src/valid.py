@@ -29,7 +29,7 @@
 
 
  # def show_card(self):
-    #     self.show_card_input = input("Press 'Z' and enter to show: ")
+    #     self.show_card_input = input(yel_text +"Press 'Z' and enter to show: ")
 
     #     if self.show_card_input.upper() == 'Z':
     #         self.show_answer_and_options()
@@ -37,7 +37,7 @@
 
     # def progress_deck(self):
     #     print("type Q to exit")
-    #     self.next_card = input("Press 'A' 'S' or 'D': ")
+    #     self.next_card = input(yel_text +"Press 'A' 'S' or 'D': ")
         
 
     #     if self.next_card.upper() == 'A' or self.next_card.upper() == 'S':
