@@ -12,10 +12,6 @@
       {
         "content": "Hello",
         "answer": "Test"
-      },
-      {
-        "content": "Test",
-        "answer": "Hello"
       }
     ]
   }

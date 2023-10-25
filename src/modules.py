@@ -1,15 +1,22 @@
 from clear import clear # installed  clear
 import os
-from pynput.keyboard import Key, Listener
 import random
 import json
-from colorama import Fore, Back, Style, init
+from colorama import Fore, Style, init
+from rich.console import Console
+from rich.table import Table
+
+
+
 
 init(autoreset=True)
 
 yel_text = Fore.YELLOW
 cya_text = Fore.CYAN
 bold_text = Style.BRIGHT
+
+
+console = Console()
 
 # ///////////////// Navigation / Menu's /////////////////
 
@@ -162,7 +169,7 @@ class StudyMenu(MenuLogo):
         else:
             print("Invalid choice. Please choose using the numbers.")
             
-# ///////////////// Study Fucntion  /////////////////
+# # ///////////////// Study Fucntion  /////////////////
 
 #Take infromation from the Json and formats to suite the function
 class CardFormatter:
@@ -189,13 +196,16 @@ class Card:
         self.back = back
         self.deck_name = deck_name
 
-
 class Study:
     def __init__(self, for_deck):
         self.for_deck = for_deck
+        self.shuffled_deck = for_deck[:]
         self.card_num = 0
-        self.shuffled_deck = for_deck[:] 
-        random.shuffle(self.shuffled_deck)
+
+
+
+    
+
 
     def run_deck(self):
         m_l_instance = MenuLogo()
@@ -204,20 +214,24 @@ class Study:
         while self.card_num < deck_len_ext:
             current_card = self.shuffled_deck[self.card_num]
             clear()
-            print(cya_text + f'''
-            {current_card.deck_name}
-            -------------------------------------
-            {self.card_num} / {len(self.shuffled_deck)} cards studied
+            table  = Table(title=f" Deck:{current_card.deck_name}")
+            table.add_row(f"\n{self.card_num} / {len(self.shuffled_deck)} cards studied\n\n",style="cyan")
+            table.add_row(f"{current_card.front}",style="cyan")
+            console.print(table)
+            # print(f'''
+            # {current_card.deck_name}
+            # -------------------------------------
+            # {self.card_num} / {len(self.shuffled_deck)} cards studied
 
-            {current_card.front}
+            # {current_card.front}
 
-            -------------------------------------
-            ''')
+            # -------------------------------------
+            # ''')
             show_card_input = input(yel_text +"Press 'Z' to show the answer: ").lower()
 
             if show_card_input == 'z':
                 clear()
-                print(cya_text + f'''
+                print(f'''
             {current_card.deck_name}
             -------------------------------------
             {self.card_num} / {len(self.shuffled_deck)} cards studied
@@ -259,6 +273,7 @@ class Study:
             -------------------------------------
             ''' )
         m_l_instance.post_function_options(message)  
+
 
 
 
