@@ -7,33 +7,23 @@
       {
         "content": "Test",
         "answer": "Test"
-      }
-    ]
-  },
-  {
-    "test1": [
+      },
       {
-        "content": "Gello ",
+        "content": "Hello",
         "answer": "Goodbye"
       },
       {
         "content": "Goodbye",
-        "answer": "Gello "
+        "answer": "Hello"
       },
       {
-        "content": "1",
-        "answer": "Test"
+        "content": "3",
+        "answer": "2"
       },
       {
-        "content": "Test",
-        "answer": "1"
+        "content": "2",
+        "answer": "3"
       }
     ]
-  },
-  {
-    "test": []
-  },
-  {
-    "tits": []
   }
 ]
