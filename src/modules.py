@@ -7,10 +7,6 @@ from colorama import Fore, Style, init
 import time
 init(autoreset=True)
 
-Y_TEXT = Fore.YELLOW
-C_TEXT = Fore.CYAN
-B_TEXT = Style.BRIGHT
-
 # ///////////////// Navigation / Menu's /////////////////
 
 
@@ -43,17 +39,19 @@ class MenuLogo():
 
         '''
 
-
+        self.y_text = Fore.YELLOW
+        self.c_text = Fore.CYAN
+        self.b_text = Style.BRIGHT
 
     def post_function_options(self,message_for_user):
         self.change_screen_to_menu()
 
-        print(C_TEXT + f"{message_for_user}\n")
+        print(self.c_text + f"{message_for_user}\n")
 
         print(self.options)
         try:
             while True:
-                post_create_option = int(input(Y_TEXT + "Please choose with "
+                post_create_option = int(input(self.y_text + "Please choose with "
                                                "the number and hit enter: "))
                 if post_create_option == 1:
                     StudyMenu()
@@ -73,8 +71,8 @@ class MenuLogo():
 
     def change_screen_to_menu(self):
         clear()
-        print(Fore.RED + B_TEXT + self.logo)
-        print(Y_TEXT + B_TEXT + self.instructions)
+        print(Fore.RED + self.b_text + self.logo)
+        print(self.y_text + self.b_text + self.instructions)
 
 
 
@@ -89,10 +87,10 @@ class MenuLogo():
                 self.ava_deck_names.append(self.single_deck)
 
         if not self.ava_deck_names:
-            self.post_function_options(C_TEXT + "There are no decks available"
+            self.post_function_options(self.c_text + "There are no decks available"
                                        " - please create one first") 
         else:
-            print(Y_TEXT + "Available Decks:\n")
+            print(self.y_text + "Available Decks:\n")
             for i, key in enumerate(self.ava_deck_names, start=1):
                 print(f"[ {i} ] {key}\n")
 
@@ -107,7 +105,7 @@ class Main(MenuLogo):
  
         while True:
             try:
-                user_main_choice = int(input(Y_TEXT +"Please choose your "
+                user_main_choice = int(input(self.y_text +"Please choose your "
                                              "option with the number and hit"
                                              " enter: "))
                 if user_main_choice == 1:
@@ -133,13 +131,13 @@ class StudyMenu(MenuLogo):
         self.change_screen_to_menu()
         self.display_available_decks()
 
-        selected_index = int(input(Y_TEXT +"\nPlease choose with the number" 
+        selected_index = int(input(self.y_text +"\nPlease choose with the number" 
                                    "and hit enter: "))
         if 1 <= selected_index <= len(self.ava_deck_names):
             selected_deck = self.x[selected_index - 1]
             for sd_val in selected_deck.values():
                 if sd_val == [{}]:
-                    self.post_function_options(C_TEXT + "That deck has no "
+                    self.post_function_options(self.c_text + "That deck has no "
                                             "cards, please add cards to use")   
                 else:
                     CardFormatter(selected_deck)     
@@ -176,23 +174,32 @@ class Card:
         self.deck_name = deck_name
 
 
-class Study:
+class Study(MenuLogo):
     '''receives list of obj to to be studied and hold'''
     def __init__(self, for_deck):
+        super().__init__()
         self.for_deck = for_deck
         self.shuffled_deck = for_deck[:]
         random.shuffle(self.shuffled_deck)
         self.card_num = 0
+        self.y_text = Fore.YELLOW
+        self.c_text = Fore.CYAN
+
+        # m_l_instance = MenuLogo()
+
+        # m_l_instance.y_text = Fore.YELLOW
+        # m_l_instance.c_text = Fore.CYAN
+
 
     def run_deck(self):
         ''' Runs formmated deck and allows user to repeat or pass'''
-        m_l_instance = MenuLogo()
+        # m_l_instance = MenuLogo()
         deck_len_ext = len(self.shuffled_deck)
 
         while self.card_num < deck_len_ext:
             current_card = self.shuffled_deck[self.card_num]
             clear()
-            print(C_TEXT +f'''
+            print(self.c_text +f'''
             {current_card.deck_name}
             -------------------------------------
             {self.card_num} / {len(self.shuffled_deck)} cards studied
@@ -201,12 +208,12 @@ class Study:
 
             -------------------------------------
             ''')
-            show_card_input = input(Y_TEXT +"\nPress 'Z' to show"
+            show_card_input = input(self.y_text +"\nPress 'Z' to show"
                                     " the answer: ").lower()
 
             if show_card_input == 'z':
                 clear()
-                print(C_TEXT + f'''
+                print(self.c_text + f'''
             {current_card.deck_name}
             -------------------------------------
             {self.card_num} / {len(self.shuffled_deck)} cards studied
@@ -223,7 +230,7 @@ class Study:
             -------------------------------------
                 ''')
 
-                next_card = input(Y_TEXT +"Press 'A' or 'S' to shuffle back"
+                next_card = input(self.y_text +"Press 'A' or 'S' to shuffle back"
                                   " in deck. 'D' to move to the next card."
                                   " 'Q' to exit: ").lower()
 
@@ -241,7 +248,7 @@ class Study:
                 elif next_card == 'd':
                     self.card_num += 1
 
-            message =(C_TEXT + f'''
+            message =(self.c_text + f'''
             {current_card.deck_name}
             -------------------------------------
             {self.card_num} / {len(self.shuffled_deck)} - All cards in the deck!
@@ -253,7 +260,7 @@ class Study:
 
             -------------------------------------
             ''' )
-        m_l_instance.post_function_options(message)  
+        self.post_function_options(message)  
 
 # ///////////////// Create a Deck  /////////////////
 
@@ -279,7 +286,7 @@ class CreateDeckMenu(MenuLogo):
         [ 4 ] = Main Menu
                 ''')
 
-                create_menu_choice = int(input(Y_TEXT +"Please choose with "
+                create_menu_choice = int(input(self.y_text +"Please choose with "
                                                "the number and hit enter: "))
 
                 if create_menu_choice == 1:
@@ -304,16 +311,16 @@ class CreateDeckMenu(MenuLogo):
     def create_and_add_card(self):
         self.display_available_decks()
         while True:
-            create_add_choice = int(input(Y_TEXT +"\nPlease choose with the "
+            create_add_choice = int(input(self.y_text +"\nPlease choose with the "
                                           "number and hit enter : "))
             if 1 <= create_add_choice <= len(self.ava_deck_names):
                 selected_deck = self.x[create_add_choice - 1]
                 for key in selected_deck.keys():
-                    add_card_fro = input(C_TEXT +"\nPlease write your main "
+                    add_card_fro = input(self.c_text +"\nPlease write your main "
                                          "content (front): ")
-                    add_card_back = input(C_TEXT +"\nPlease write your "
+                    add_card_back = input(self.c_text +"\nPlease write your "
                                           "answer (back): ")
-                    want_double = input(C_TEXT +"\n Do you want two cards"
+                    want_double = input(self.c_text +"\n Do you want two cards"
                                         ", reveresed, front and back (Y/N)?")
                     
                     if want_double.lower() == "n":
@@ -334,7 +341,7 @@ class CreateDeckMenu(MenuLogo):
                     print(f"\nCards successfully created added to {key}\n")
 
                     while True:
-                        add_another_card = input(Y_TEXT + (f"Would you like to add another card to {key}? (Y/N)? "))
+                        add_another_card = input(self.y_text + (f"Would you like to add another card to {key}? (Y/N)? "))
                         if add_another_card.lower() == 'y':
                             self.create_and_add_card()
                         elif add_another_card.lower() == 'n':
@@ -369,7 +376,7 @@ class CreateDeckMenu(MenuLogo):
 
     def create_deck_from_file(self):
         new_deck =[]
-        file_path = input(Y_TEXT +"Enter the path or name of the text file: ")
+        file_path = input(self.y_text +"Enter the path or name of the text file: ")
         lines_from_file = self.get_lines_from_file(file_path)
         try:
             txt_inp_swap = input("\n Do you want get 2 for each side, "
@@ -399,7 +406,7 @@ class CreateDeckMenu(MenuLogo):
 
     def push_deck_to_json(self,deck_cards):
         while True:
-            name_input = input(Y_TEXT +"\nWhat do you want to call"
+            name_input = input(self.y_text +"\nWhat do you want to call"
                                " your deck?: ")
             with open('decks.json', 'r') as json_file:
                 d = json.load(json_file)
@@ -445,7 +452,7 @@ class EditMenu(MenuLogo):
 
         while True:
             try:
-                edit_menu_choice = int(input(Y_TEXT +"Please choose with "
+                edit_menu_choice = int(input(self.y_text +"Please choose with "
                                              "the number and hit enter:"))
 
                 if edit_menu_choice == 1:
@@ -477,7 +484,7 @@ class EditMenu(MenuLogo):
     def edit_name_of_deck(self):
         while True:
             try:
-                edit_name_choice = int(input(Y_TEXT +"\nPlease choose the "
+                edit_name_choice = int(input(self.y_text +"\nPlease choose the "
                                              "deck to rename by its number "
                                              "and hit enter: "))
                 if 1 <= edit_name_choice <= len(self.ava_deck_names):
@@ -485,7 +492,7 @@ class EditMenu(MenuLogo):
                     old_deck_name = self.ava_deck_names[edit_name_choice - 1]
 
                     while True:
-                        new_deck_name = input(Y_TEXT +f"\nPlease enter a new name for the deck : '{old_deck_name}': ")
+                        new_deck_name = input(self.y_text +f"\nPlease enter a new name for the deck : '{old_deck_name}': ")
 
                         name_exists = False
                         for deck in self.x:
@@ -511,7 +518,7 @@ class EditMenu(MenuLogo):
     def delete_card_in_deck(self):
         while True:
             try:
-                del_card_deck_choice = int(input(Y_TEXT + "\nPlease choose "
+                del_card_deck_choice = int(input(self.y_text + "\nPlease choose "
                                                  "the deck the card contains:"
                                                  " "))
                 if 1 <= del_card_deck_choice <= len(self.ava_deck_names):
@@ -527,7 +534,7 @@ class EditMenu(MenuLogo):
                         for i, deck in enumerate(value, start=1):
                             print(f"[ {i} ]: {deck}\n")
 
-                        edit_c_number = int(input(Y_TEXT + "\nWhat number ca"
+                        edit_c_number = int(input(self.y_text + "\nWhat number ca"
                                                   "rd would you like to "
                                                   "delete? "))
                         if edit_c_number == 0:
@@ -552,7 +559,7 @@ class EditMenu(MenuLogo):
 
     def delete_deck(self):
         while True:
-            del_card_choice = int(input(Y_TEXT +"\nPlease choose the deck "
+            del_card_choice = int(input(self.y_text +"\nPlease choose the deck "
                                         "to delete: "))
             if 1 <= del_card_choice <= len(self.ava_deck_names):
                 selected_deck = self.x[del_card_choice - 1]
