@@ -1,14 +1,13 @@
-from clear import clear # installed  clear
+from clear import clear 
 import os
 import random
 import json
 from colorama import Fore, Style, init
-from rich.console import Console
-from rich.table import Table
 
 
 
 
+                                                              
 init(autoreset=True)
 
 yel_text = Fore.YELLOW
@@ -16,14 +15,7 @@ cya_text = Fore.CYAN
 bold_text = Style.BRIGHT
 
 
-console = Console()
-
 # ///////////////// Navigation / Menu's /////////////////
-
-
-
-
-
 
 
 class MenuLogo():
@@ -77,11 +69,7 @@ class MenuLogo():
                 else:
                     print("Invalid Input, please try again")
         except ValueError:
-            print("Invalid choice. Please choose using the numbers.")
-        except UnboundLocalError:
-            self.post_function_options("Theres no cards in this deck.")
-        except IndexError:
-            self.post_function_options("There are no cards to delete")
+            self.post_function_options("Invalid choice. Please choose using the numbers.")
 
 
 
@@ -122,6 +110,7 @@ class Main(MenuLogo):
 
         while True:
             try:
+
                 user_main_choice = int(input(yel_text +"Please choose your option with the number and hit enter: "))
                 if user_main_choice == 1:
                     StudyMenu()
@@ -138,14 +127,6 @@ class Main(MenuLogo):
                 print("Invalid choice. Please choose using the numbers.")
             except UnboundLocalError:
                 self.post_function_options("Theres no cards in this deck.")
-            except IndexError:
-                self.post_function_options("There are no cards to delete")
-
-                
-
-
-
-
 
 
 class StudyMenu(MenuLogo):
@@ -161,7 +142,7 @@ class StudyMenu(MenuLogo):
             selected_deck = self.x[selected_index - 1]
             for sd_val in selected_deck.values():
                 if sd_val == [{}]:
-                    self.post_function_options( cya_text + "That deck has no cards, please add cards to use")   
+                    self.post_function_options(cya_text + "That deck has no cards, please add cards to use")   
                 else:
                     CardFormatter.init_deck(selected_deck)
 
@@ -184,12 +165,13 @@ class CardFormatter:
                 card_back = card["answer"]
                 new_card = Card(card_front, card_back, deck_name)
                 formatted_card_bank.append(new_card)
-
+            # this list is the info as objects
             study_deck = Study(formatted_card_bank)
             study_deck.run_deck()
+            #run through the study function
 
 
-
+# Makes an object with required information
 class Card:
     def __init__(self, front, back, deck_name):
         self.front = front
@@ -202,36 +184,29 @@ class Study:
         self.shuffled_deck = for_deck[:]
         self.card_num = 0
 
-
-
-    
-
-
+   
     def run_deck(self):
         m_l_instance = MenuLogo()
         deck_len_ext = len(self.shuffled_deck)
+
         
         while self.card_num < deck_len_ext:
             current_card = self.shuffled_deck[self.card_num]
             clear()
-            table  = Table(title=f" Deck:{current_card.deck_name}")
-            table.add_row(f"\n{self.card_num} / {len(self.shuffled_deck)} cards studied\n\n",style="cyan")
-            table.add_row(f"{current_card.front}",style="cyan")
-            console.print(table)
-            # print(f'''
-            # {current_card.deck_name}
-            # -------------------------------------
-            # {self.card_num} / {len(self.shuffled_deck)} cards studied
+            print(cya_text +f'''
+            {current_card.deck_name}
+            -------------------------------------
+            {self.card_num} / {len(self.shuffled_deck)} cards studied
 
-            # {current_card.front}
+            {current_card.front}
 
-            # -------------------------------------
-            # ''')
-            show_card_input = input(yel_text +"Press 'Z' to show the answer: ").lower()
+            -------------------------------------
+            ''')
+            show_card_input = input(yel_text +"\nPress 'Z' to show the answer: ").lower()
 
             if show_card_input == 'z':
                 clear()
-                print(f'''
+                print(cya_text + f'''
             {current_card.deck_name}
             -------------------------------------
             {self.card_num} / {len(self.shuffled_deck)} cards studied
@@ -244,7 +219,7 @@ class Study:
 
             [ Wrong ] [ Need Review ] [ Easy ]
 
-            [ A ]       [ S ]        [ D ]
+              [ A ]        [ S ]       [ D ]
             -------------------------------------
                 ''')
 
@@ -323,9 +298,6 @@ class DeckCreator(MenuLogo):
                 elif create_menu_choice == 4:
                     self.post_function_options("")
                 
-                else:
-                    print("Invalid Input, please try again")
-                
             except ValueError:
                 print("Invalid choice. Please choose using the numbers.")
 
@@ -340,8 +312,8 @@ class DeckCreator(MenuLogo):
             if 1 <= create_add_choice <= len(self.ava_deck_names):
                 selected_deck = self.x[create_add_choice - 1]
                 for key in selected_deck.keys():
-                    add_card_fro = input(yel_text +"\nPlease write your main content (front): ")
-                    add_card_back = input(yel_text +"\nPlease write your answer (back): ")
+                    add_card_fro = input(cya_text +"\nPlease write your main content (front): ")
+                    add_card_back = input(cya_text +"\nPlease write your answer (back): ")
 
                     new_card_1 = self.create_and_reverse(add_card_fro, add_card_back)
                     new_card_2 = self.create_and_reverse(add_card_back, add_card_fro)
@@ -360,7 +332,7 @@ class DeckCreator(MenuLogo):
                         if add_another_card.lower() == 'y':
                             self.create_and_add_card()
                         elif add_another_card.lower() == 'n':
-                            Main() 
+                            self.post_function_options("Card creating finished") 
                         else:
                              print("Invalid input. Please enter 'Y' or 'N'.")
             else:
@@ -377,7 +349,8 @@ class DeckCreator(MenuLogo):
                     self.post_function_options("Invalid file address , Please check and enter again.")
         
         except ValueError:
-            print("Please reformat the text file must be - front, back - and another card on a new line ")
+            print("Please reformat the text file must be - 'front / back' - and another card on a new line ")
+
 
     def create_and_reverse(self,content,answer):
         card_info ={
@@ -401,9 +374,9 @@ class DeckCreator(MenuLogo):
                 new_deck.append(self.create_and_reverse(answer,content))
         
         except ValueError:
-            print("formatting error, please check .txt file and ensure  '/' used once in a line to seperate ")
+            self.post_function_options("Formatting error, please check .txt file and ensure  '/' used once in a line to seperate ")
         except TypeError:
-            print("please specify with .txt at the end of file.")
+            self.post_function_options("Please ensure file is .txt")
 
         return new_deck
 
@@ -455,33 +428,36 @@ class EditMenu(MenuLogo):
         [ 4 ] = Return to Main Menu
 
         ''')
-
-        edit_menu_choice = int(input(yel_text +"Please choose with the number and hit enter:"))
-
-        if edit_menu_choice == 1:
-            self.change_screen_to_menu()
-            print("Which name would you like to change? \n")
-            self.display_available_decks()
-            self.edit_name_of_deck()
-                     
-        elif edit_menu_choice == 2:
-            self.change_screen_to_menu()
-            print("Which deck is the card you would you like to change? \n")
-            self.display_available_decks()
-            self.delete_card_in_deck()
-  
-
-        elif edit_menu_choice == 3:
-            self.change_screen_to_menu()
-            print("Which deck would you like to delete? \n")
-            self.display_available_decks()
-            self.delete_deck()
-
-        elif edit_menu_choice == 4:
-            self.post_function_options("")
         
-        else:
-            print("Invalid Input, please try again")
+        while True:
+            try:
+                edit_menu_choice = int(input(yel_text +"Please choose with the number and hit enter:"))
+
+                if edit_menu_choice == 1:
+                    self.change_screen_to_menu()
+                    print("Which name would you like to change? \n")
+                    self.display_available_decks()
+                    self.edit_name_of_deck()
+                            
+                elif edit_menu_choice == 2:
+                    self.change_screen_to_menu()
+                    print("Which deck is the card you would you like to change? \n")
+                    self.display_available_decks()
+                    self.delete_card_in_deck()
+
+
+                elif edit_menu_choice == 3:
+                    self.change_screen_to_menu()
+                    print("Which deck would you like to delete? \n")
+                    self.display_available_decks()
+                    self.delete_deck()
+
+                elif edit_menu_choice == 4:
+                    self.post_function_options("")
+        
+            except ValueError:
+                print("Invalid choice. Please choose using the numbers.")
+
 
     def edit_name_of_deck(self):
         while True:
@@ -511,39 +487,47 @@ class EditMenu(MenuLogo):
                             print("This deck name already exists. Please enter another.\n")
 
                     break
-                else:
-                    print("Invalid choice. Please choose a valid number.")
             except ValueError:
-                print("Invalid input. Please enter a number.")
-            except UnboundLocalError:
-                print ("Theres no cards in this deck.")
-            except IndexError:
-                print("There are no cards to delete")
+                print("Invalid choice. Please choose using the numbers -edit name.")
+
             
 
 
-        EditMenu()
-
-    
     def delete_card_in_deck(self):
-                while True:
-                    del_card_deck_choice = int(input(yel_text +"\nPlease choose the deck the card contains: "))
-                    if 1 <= del_card_deck_choice <= len(self.ava_deck_names):
-                        selected_deck = self.x[del_card_deck_choice - 1]
-                        for key,value in selected_deck.items():
-                            self.change_screen_to_menu()
-                            print(f"Cards in deck: {key} \n")
-                            for i, deck in enumerate(value, start=1):
-                                print(f"[ {i} ]: {deck}\n")
-                            edit_c_number = int(input(yel_text +"\nWhat number card would you like to delete? "))
-                            del value[edit_c_number-1]
+        while True:
+            try:
+                del_card_deck_choice = int(input(yel_text + "\nPlease choose the deck the card contains: "))
+                if 1 <= del_card_deck_choice <= len(self.ava_deck_names):
+                    selected_deck = self.x[del_card_deck_choice - 1]
+                    for key, value in selected_deck.items():
+                        if not value:
+                            self.post_function_options("There are no cards in that deck")
+                            break
 
+                        self.change_screen_to_menu()
+                        print(f"Cards in deck: {key}\n")
+                        for i, deck in enumerate(value, start=1):
+                            print(f"[ {i} ]: {deck}\n")
+                        
+                        edit_c_number = int(input(yel_text + "\nWhat number card would you like to delete? "))
+                        if edit_c_number == 0:
+                            break
+
+                        if 1 <= edit_c_number <= len(value):
+                            deleted_card = value.pop(edit_c_number - 1)  
                             with open('decks.json', 'w') as json_file:
                                 json.dump(self.x, json_file, indent=2)
-                            
-                            break
-                    self.post_function_options(f"Card {i}: {deck} deleted successfully from '{self.single_deck}'\n")
+                            self.post_function_options(f"Card {edit_c_number}: {deleted_card} deleted successfully from '{key}'\n")
+                        else:
+                            print("Invalid card number. Please enter a valid number.")
 
+                    break
+                else:
+                    print("Invalid deck choice. Please enter a valid deck number.")
+            except ValueError:
+                print("Invalid input. Please enter a number")
+
+                    
     def delete_deck(self):
         while True:
             del_card_choice = int(input(yel_text +"\nPlease choose the deck to delete: "))
