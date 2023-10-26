@@ -7,10 +7,6 @@
       {
         "content": "Test",
         "answer": "Test"
-      },
-      {
-        "content": "Test",
-        "answer": "Test"
       }
     ]
   },
@@ -36,5 +32,8 @@
   },
   {
     "test": []
+  },
+  {
+    "tits": []
   }
 ]
