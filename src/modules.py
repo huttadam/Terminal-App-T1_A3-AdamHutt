@@ -4,6 +4,7 @@ import random
 import json
 from clear import clear
 from colorama import Fore, Style, init
+import time
 init(autoreset=True)
 
 Y_TEXT = Fore.YELLOW
@@ -57,7 +58,7 @@ class MenuLogo():
                 if post_create_option == 1:
                     StudyMenu()
                 elif post_create_option == 2:
-                    DeckCreator()
+                    CreateDeckMenu()
                 elif post_create_option == 3:
                     EditMenu()
                 elif post_create_option == 4:
@@ -73,7 +74,7 @@ class MenuLogo():
     def change_screen_to_menu(self):
         clear()
         print(Fore.RED + B_TEXT + self.logo)
-        print(Fore.YELLOW + B_TEXT + self.instructions)
+        print(Y_TEXT + B_TEXT + self.instructions)
 
 
 
@@ -112,7 +113,7 @@ class Main(MenuLogo):
                 if user_main_choice == 1:
                     StudyMenu()
                 elif user_main_choice == 2:
-                    DeckCreator()
+                    CreateDeckMenu()
                 elif user_main_choice == 3:
                     EditMenu()
                 elif user_main_choice == 4:
@@ -145,13 +146,13 @@ class StudyMenu(MenuLogo):
         else:
             print("Invalid choice. Please choose using the numbers.")
 
-# # ///////////////// Study Fucntion  /////////////////
+# # ///////////////// Study Function  /////////////////
 
 #Take infromation from the Json and formats to suite the function
 class CardFormatter:
     def __init__(self,deck):
 
-        self.formatted_card_bank = []
+        formatted_card_bank = []
 
         for k,v in deck.items():
             deck_name = k
@@ -159,15 +160,16 @@ class CardFormatter:
                 card_front = card["content"]
                 card_back = card["answer"]
                 new_card = Card(card_front, card_back, deck_name)
-                self.formatted_card_bank.append(new_card)
+                formatted_card_bank.append(new_card)
             # this list is the info as objects
-            study_deck = Study(self.formatted_card_bank)
+            study_deck = Study(formatted_card_bank)
             study_deck.run_deck()
             #run through the study function
 
 
-# Makes an object with required information
+
 class Card:
+    '''makes an object with required information'''
     def __init__(self, front, back, deck_name):
         self.front = front
         self.back = back
@@ -175,6 +177,7 @@ class Card:
 
 
 class Study:
+    '''receives list of obj to to be studied and hold'''
     def __init__(self, for_deck):
         self.for_deck = for_deck
         self.shuffled_deck = for_deck[:]
@@ -182,6 +185,7 @@ class Study:
         self.card_num = 0
 
     def run_deck(self):
+        ''' Runs formmated deck and allows user to repeat or pass'''
         m_l_instance = MenuLogo()
         deck_len_ext = len(self.shuffled_deck)
 
@@ -225,9 +229,14 @@ class Study:
 
                 if next_card == 'q':
                     m_l_instance.post_function_options("You quit the deck")
-                elif next_card == 'a' or next_card == 's':
+                elif next_card == 's':
                     self.shuffled_deck.append(self.shuffled_deck[self.card_num])
                     deck_len_ext += 1
+                    self.card_num += 1
+                elif next_card == 'a':
+                    self.shuffled_deck.append(self.shuffled_deck[self.card_num])
+                    self.shuffled_deck.append(self.shuffled_deck[self.card_num])
+                    deck_len_ext += 2
                     self.card_num += 1
                 elif next_card == 'd':
                     self.card_num += 1
@@ -246,24 +255,19 @@ class Study:
             ''' )
         m_l_instance.post_function_options(message)  
 
-
-
-
-
 # ///////////////// Create a Deck  /////////////////
 
-class DeckCreator(MenuLogo):
+class CreateDeckMenu(MenuLogo):
+    '''Handles deck,card and creating handling'''
     def __init__(self):
         super().__init__()
 
         self.change_screen_to_menu()
 
-
         while True:
             self.change_screen_to_menu()
 
             try:
-
                 print('''
 
         [ 1 ] = Create a deck with .txt file 
@@ -297,9 +301,6 @@ class DeckCreator(MenuLogo):
                 print("Invalid choice. Please choose using the numbers.")
 
 
-
-
-
     def create_and_add_card(self):
         self.display_available_decks()
         while True:
@@ -312,13 +313,20 @@ class DeckCreator(MenuLogo):
                                          "content (front): ")
                     add_card_back = input(C_TEXT +"\nPlease write your "
                                           "answer (back): ")
-
-                    new_card1 = self.create_and_reverse(add_card_fro, add_card_back)
-                    new_card2 = self.create_and_reverse(add_card_back, add_card_fro)
-
-                    selected_deck[key].append(new_card1)
-                    selected_deck[key].append(new_card2)
-
+                    want_double = input(C_TEXT +"\n Do you want two cards"
+                                        ", reveresed, front and back (Y/N)?")
+                    
+                    if want_double.lower() == "n":
+                        new_card1 = self.create_and_reverse(add_card_fro, add_card_back)
+                        selected_deck[key].append(new_card1)
+                    elif want_double.lower() == "y":
+                        new_card1 = self.create_and_reverse(add_card_fro, add_card_back)
+                        new_card2 = self.create_and_reverse(add_card_back, add_card_fro)
+                        selected_deck[key].append(new_card1)
+                        selected_deck[key].append(new_card2)
+                    
+                    else:
+                        print("Invalid input. Please enter 'Y' or 'N'.")
 
                     with open('decks.json', 'w') as json_file:
                         json.dump(self.x, json_file, indent=2)
@@ -336,7 +344,6 @@ class DeckCreator(MenuLogo):
             else:
                 print("Invalid choice. Please choose with the "
                       "corresponding number.")
-
 
     def get_lines_from_file(self,file_path):
         try:
@@ -356,7 +363,7 @@ class DeckCreator(MenuLogo):
         card_info ={
             "content":content,
             "answer": answer
-        }
+            }
         return card_info
 
 
@@ -365,10 +372,20 @@ class DeckCreator(MenuLogo):
         file_path = input(Y_TEXT +"Enter the path or name of the text file: ")
         lines_from_file = self.get_lines_from_file(file_path)
         try:
+            txt_inp_swap = input("\n Do you want get 2 for each side, "
+            "2-sided Y /N ? ")
+            
             for line in lines_from_file:
                 content, answer = line.strip().split('/')
-                new_deck.append(self.create_and_reverse(content,answer))
-                new_deck.append(self.create_and_reverse(answer,content))
+                
+                if txt_inp_swap.lower() == "y":
+                    new_deck.append(self.create_and_reverse(content, answer))
+                    new_deck.append(self.create_and_reverse(answer, content))
+                elif txt_inp_swap.lower() == "n":
+                    new_deck.append(self.create_and_reverse(content, answer))
+                else:
+                    ("Invalid input. Please enter 'Y' or 'N'.")
+
 
         except ValueError:
             self.post_function_options("Formatting error, please check .txt "
@@ -406,9 +423,9 @@ class DeckCreator(MenuLogo):
             else:
                 print("\nThis name already exists. Please enter another\n")
 
-
 # ///////////////// Edit Menu /////////////
 class EditMenu(MenuLogo):
+    '''handles editing functions'''
     def __init__(self):
         super().__init__()
 
