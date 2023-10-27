@@ -1,5 +1,5 @@
 import pytest
-import modules
+import flashcard_app
 
 cd = flashcard_app.CreateMenu()
 md = flashcard_app.MainMenu()
@@ -53,7 +53,7 @@ md = flashcard_app.MainMenu()
 
 def test_for_mis_formatted_txt_from_user():
     with pytest.raises(ValueError):
-        cd.create_deck_from_file
+        cd.create_deck_from_file()
 
 cd.test_for_mis_formatted_txt_from_user()
 
@@ -76,6 +76,3 @@ def test_for_txt_file_correct_upload():
 
 test_for_txt_file_correct_upload()
 
-
-
-check_wrong_again_easy_functions()

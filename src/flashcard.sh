@@ -1,13 +1,12 @@
 #!/bin/bash
-
 if ! [[ -x "$(command -v python3)" ]]
 then
-    echo 'Python3 not downlaoded' >&2
+    echo 'Python3 not downlaoded , Please dowload to run.' >&2
     exit 1
 fi
 
 python3 -m venv .venv
 source .venv/bin/activate
-pip3 install -r src/requirements.txt
-python3 src/main.py $1
+python3 -m pip install -r requirements.txt
+python3 main.py $1
 deactivate
