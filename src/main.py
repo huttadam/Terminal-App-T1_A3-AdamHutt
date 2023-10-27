@@ -1,13 +1,9 @@
 import modules
 
+run_program = modules.Main()
 
 
-
-# modules.init_deck(data.deck1)
- 
-# modules.create_deck_from_file()
-
-modules.Main()
+run_program()
 
 
 

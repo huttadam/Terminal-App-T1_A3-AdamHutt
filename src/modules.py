@@ -4,13 +4,12 @@ import random
 import json
 from clear import clear
 from colorama import Fore, Style, init
-import time
 init(autoreset=True)
 
 # ///////////////// Navigation / Menu's /////////////////
 
 
-class MenuLogo():
+class FlashCardApp():
     def __init__(self):
         self.logo = '''
  (                                                                                        
@@ -95,7 +94,7 @@ class MenuLogo():
                 print(f"[ {i} ] {key}\n")
 
 
-class Main(MenuLogo):
+class Main(FlashCardApp):
     def __init__(self):
         super().__init__()
 
@@ -125,7 +124,7 @@ class Main(MenuLogo):
                 self.post_function_options("Theres no cards in this deck.")
 
    
-class StudyMenu(MenuLogo):
+class StudyMenu(FlashCardApp):
     def __init__(self):
         super().__init__()
         self.change_screen_to_menu()
@@ -165,7 +164,6 @@ class CardFormatter:
             #run through the study function
 
 
-
 class Card:
     '''makes an object with required information'''
     def __init__(self, front, back, deck_name):
@@ -174,7 +172,7 @@ class Card:
         self.deck_name = deck_name
 
 
-class Study(MenuLogo):
+class Study(FlashCardApp):
     '''receives list of obj to to be studied and hold'''
     def __init__(self, for_deck):
         super().__init__()
@@ -185,15 +183,9 @@ class Study(MenuLogo):
         self.y_text = Fore.YELLOW
         self.c_text = Fore.CYAN
 
-        # m_l_instance = MenuLogo()
-
-        # m_l_instance.y_text = Fore.YELLOW
-        # m_l_instance.c_text = Fore.CYAN
-
 
     def run_deck(self):
         ''' Runs formmated deck and allows user to repeat or pass'''
-        # m_l_instance = MenuLogo()
         deck_len_ext = len(self.shuffled_deck)
 
         while self.card_num < deck_len_ext:
@@ -235,7 +227,7 @@ class Study(MenuLogo):
                                   " 'Q' to exit: ").lower()
 
                 if next_card == 'q':
-                    m_l_instance.post_function_options("You quit the deck")
+                    self.post_function_options("You quit the deck")
                 elif next_card == 's':
                     self.shuffled_deck.append(self.shuffled_deck[self.card_num])
                     deck_len_ext += 1
@@ -247,6 +239,8 @@ class Study(MenuLogo):
                     self.card_num += 1
                 elif next_card == 'd':
                     self.card_num += 1
+                
+                # Incorrect input goes to start of while loop
 
             message =(self.c_text + f'''
             {current_card.deck_name}
@@ -264,7 +258,7 @@ class Study(MenuLogo):
 
 # ///////////////// Create a Deck  /////////////////
 
-class CreateDeckMenu(MenuLogo):
+class CreateDeckMenu(FlashCardApp):
     '''Handles deck,card and creating handling'''
     def __init__(self):
         super().__init__()
@@ -320,8 +314,8 @@ class CreateDeckMenu(MenuLogo):
                                          "content (front): ")
                     add_card_back = input(self.c_text +"\nPlease write your "
                                           "answer (back): ")
-                    want_double = input(self.c_text +"\n Do you want two cards"
-                                        ", reveresed, front and back (Y/N)?")
+                    want_double = input(self.c_text +"\nDo you want two cards?"
+                                        "(reveresed, front and back) (Y/N)?")
                     
                     if want_double.lower() == "n":
                         new_card1 = self.create_and_reverse(add_card_fro, add_card_back)
@@ -338,10 +332,11 @@ class CreateDeckMenu(MenuLogo):
                     with open('decks.json', 'w') as json_file:
                         json.dump(self.x, json_file, indent=2)
 
-                    print(f"\nCards successfully created added to {key}\n")
+                    print(f"\nCard(s) successfully created added to {key}\n")
 
                     while True:
-                        add_another_card = input(self.y_text + (f"Would you like to add another card to {key}? (Y/N)? "))
+                        add_another_card = input(self.y_text + (f"Would you "
+                        "like to add another card? (Y/N)? "))
                         if add_another_card.lower() == 'y':
                             self.create_and_add_card()
                         elif add_another_card.lower() == 'n':
@@ -376,7 +371,8 @@ class CreateDeckMenu(MenuLogo):
 
     def create_deck_from_file(self):
         new_deck =[]
-        file_path = input(self.y_text +"Enter the path or name of the text file: ")
+        print( self.y_text +"\nExample:/Users/AdamsPC/Desktop/test.txt\n")
+        file_path = input(self.y_text +"Enter the path name of the text file: ")
         lines_from_file = self.get_lines_from_file(file_path)
         try:
             txt_inp_swap = input("\n Do you want get 2 for each side, "
@@ -431,7 +427,8 @@ class CreateDeckMenu(MenuLogo):
                 print("\nThis name already exists. Please enter another\n")
 
 # ///////////////// Edit Menu /////////////
-class EditMenu(MenuLogo):
+
+class EditMenu(FlashCardApp):
     '''handles editing functions'''
     def __init__(self):
         super().__init__()
