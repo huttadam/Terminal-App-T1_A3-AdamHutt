@@ -1,8 +1,8 @@
 import pytest
 import modules
 
-cd = modules.CreateDeckMenu()
-md = modules.Main()
+cd = flashcard_app.CreateMenu()
+md = flashcard_app.MainMenu()
 
 # - Feature 1 - Studying through a deck of flashcard and checking if the
 #   responses are working as planned
@@ -69,7 +69,7 @@ cd.test_for_mis_formatted_txt_from_user()
 
 def test_for_txt_file_correct_upload():
     cd.create_deck_from_file()
-    with open('decks.json', 'r') as json_file:
+    with open('src/decks.json', 'r') as json_file:
         decks = json.load(json_file)
 
     assert 'Test2' in decks

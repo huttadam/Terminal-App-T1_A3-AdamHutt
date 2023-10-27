@@ -1,6 +1,6 @@
-import modules
+import flashcard_app
 
-run_program = modules.Main()
+run_program = flashcard_app.MainMenu()
 
 
 run_program()

@@ -55,7 +55,7 @@ class FlashCardApp():
                 if post_create_option == 1:
                     StudyMenu()
                 elif post_create_option == 2:
-                    CreateDeckMenu()
+                    CreateMenu()
                 elif post_create_option == 3:
                     EditMenu()
                 elif post_create_option == 4:
@@ -76,7 +76,7 @@ class FlashCardApp():
 
 
     def display_available_decks(self):
-        with open('decks.json', 'r') as json_file:
+        with open('src/decks.json', 'r') as json_file:
             self.x = json.load(json_file)
 
         self.ava_deck_names = []
@@ -91,10 +91,11 @@ class FlashCardApp():
         else:
             print(self.y_text + "Available Decks:\n")
             for i, key in enumerate(self.ava_deck_names, start=1):
-                print(f"[ {i} ] {key}\n")
+                print(f"[ {i} ] {key}\n") 
+            
 
 
-class Main(FlashCardApp):
+class MainMenu(FlashCardApp):
     def __init__(self):
         super().__init__()
 
@@ -110,7 +111,7 @@ class Main(FlashCardApp):
                 if user_main_choice == 1:
                     StudyMenu()
                 elif user_main_choice == 2:
-                    CreateDeckMenu()
+                    CreateMenu()
                 elif user_main_choice == 3:
                     EditMenu()
                 elif user_main_choice == 4:
@@ -139,10 +140,10 @@ class StudyMenu(FlashCardApp):
                     self.post_function_options(self.c_text + "That deck has no "
                                             "cards, please add cards to use")   
                 else:
-                    CardFormatter(selected_deck)     
+                    CardFormatter(selected_deck)
         else:
-            print("Invalid choice. Please choose using the numbers.")
-
+            (self.y_text + "Please choose with the number")
+                        
 # # ///////////////// Study Function  /////////////////
 
 #Take infromation from the Json and formats to suite the function
@@ -258,7 +259,7 @@ class Study(FlashCardApp):
 
 # ///////////////// Create a Deck  /////////////////
 
-class CreateDeckMenu(FlashCardApp):
+class CreateMenu(FlashCardApp):
     '''Handles deck,card and creating handling'''
     def __init__(self):
         super().__init__()
@@ -329,7 +330,7 @@ class CreateDeckMenu(FlashCardApp):
                     else:
                         print("Invalid input. Please enter 'Y' or 'N'.")
 
-                    with open('decks.json', 'w') as json_file:
+                    with open('src/decks.json', 'w') as json_file:
                         json.dump(self.x, json_file, indent=2)
 
                     print(f"\nCard(s) successfully created added to {key}\n")
@@ -404,7 +405,7 @@ class CreateDeckMenu(FlashCardApp):
         while True:
             name_input = input(self.y_text +"\nWhat do you want to call"
                                " your deck?: ")
-            with open('decks.json', 'r') as json_file:
+            with open('src/decks.json', 'r') as json_file:
                 d = json.load(json_file)
 
             name_exists = False
@@ -417,7 +418,7 @@ class CreateDeckMenu(FlashCardApp):
                 template_created_dict = {name_input: deck_cards}
                 d.append(template_created_dict)
 
-                with open('decks.json', 'w') as json_file:
+                with open('src/decks.json', 'w') as json_file:
                     json.dump(d, json_file, indent=2)
 
                 self.post_function_options(f"Deck '{name_input}' has"
@@ -499,7 +500,7 @@ class EditMenu(FlashCardApp):
 
                         if not name_exists:
                             selected_deck[new_deck_name] = selected_deck.pop(old_deck_name)
-                            with open('decks.json', 'w') as json_file:
+                            with open('src/decks.json', 'w') as json_file:
                                 json.dump(self.x, json_file, indent=2)
                             self.post_function_options(f"Deck name changed to : '{new_deck_name}'.\n")
                             break
@@ -539,7 +540,7 @@ class EditMenu(FlashCardApp):
 
                         if 1 <= edit_c_number <= len(value):
                             deleted_card = value.pop(edit_c_number - 1)  
-                            with open('decks.json', 'w') as json_file:
+                            with open('src/decks.json', 'w') as json_file:
                                 json.dump(self.x, json_file, indent=2)
                             self.post_function_options(f"Card {edit_c_number}: {deleted_card} deleted successfully from '{key}'\n")
                         else:
@@ -556,13 +557,14 @@ class EditMenu(FlashCardApp):
 
     def delete_deck(self):
         while True:
+            
             del_card_choice = int(input(self.y_text +"\nPlease choose the deck "
                                         "to delete: "))
             if 1 <= del_card_choice <= len(self.ava_deck_names):
                 selected_deck = self.x[del_card_choice - 1]
                 self.x.remove(selected_deck)
 
-                with open('decks.json', 'w') as json_file:
+                with open('src/decks.json', 'w') as json_file:
                     json.dump(self.x, json_file, indent=2)
                 break
 
