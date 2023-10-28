@@ -46,27 +46,14 @@ I automated parts of my test but still required some input to be entered manuall
 | Half Automated      | Feature 2 - Create a Deck through user input .txt file (Case 2) | Receiving a correctly formatted txt file (test2_template.txt) and runs through other requested inputs function correctly like "Would you like a reversed copy of card" or "Please enter name" | To upload into the Json file and immediately become a deck available to study. | As expected |
 
 
-
-
-<!-- Test Method | Feature | Test | Expected result | Actual result 
---- | --- | --- | --- | ---
-Manual | Feature 1 - Study a Deck (Case 1) |  Cycle through the cards and test all possible inputs ('Z' = show card, 'A' =  Wrong , 'S' = Need review, 'D' = Easy) | To perform based on their coding, repeat the cards if necessary and always and advance to next card. | As expected 
-
-Manual | Feature 1 - Study a Deck (Case 2) | Receiving incorrect user input from the user, other than previously defined input.  | To reset the current card and not advance or crash. | As expected 
-
-Half Automated | Feature 2 - Create a Deck through user input .txt file (Case 1) | If a incorrectly formatted .txt file (test1.template.txt) is uploaded  | To return to the main menu with a message informing the user and  asking the user to check and correct the formatted file | As expected 
-
-Half automated | Feature 2 - Create a Deck through user input .txt file  (Case 2) | Recieving correctly formatted txt file (test2_template.txt) and runs through other requested inputs function correctly like "Would you like to a reversed copy of card" or "Please enter name"  | To upload into the Json file and immediately become a deck available to study. | As expected  --> 
-
-
 ### Implementation Plan
 
 I found using the implementation plan on Trello very useful and a productive way to track my progress throughout the project. Although having to slightly change some ideas and adding additional/changing some features based on timing was a lot more stress-free as I could track the other work that needed to be done and manage my time.
 
-Progress photos:
+#### Progress photos:
 
 ![Trello 1](/docs/Trello/D1-1.png)
-![Trello 2](/docs/Trello/D2-2.png)
+![Trello 2](/docs/Trello/D2-1.png)
 ![Trello 3](/docs/Trello/D3%20-1.png)
 ![Trello 4](/docs/Trello/D4-1.png)
 ![Trello 5](/docs/Trello/D5%20-1.png)
@@ -76,7 +63,7 @@ Progress photos:
 ![Trello 9](/docs/Trello/completed.png)
 
 
-Completed Features Checklists (Daily checklist photos also in docs file):
+ #### Completed Features Checklists (Daily checklist photos also in docs file):
 
 ![Trello 1](/docs/Trello/D10-2.png)
 ![Trello 2](/docs/Trello/D10-4.png)
@@ -93,7 +80,10 @@ Completed Features Checklists (Daily checklist photos also in docs file):
 ### How to import
 
 Step 1:
-Please ensure you are inside the src file of the terminal project folder. (cd AdamHutt_T1A3/src) 
+Please ensure you are inside the src file of the terminal project folder.
+```
+cd AdamHutt_T1A3/src 
+```
 
 Step 2:
 Run the below into the command line
@@ -102,7 +92,7 @@ bash flashcard.sh
 ```
 If Python is not installed, you will recieve a message to download or you can download here. [Python](https://www.python.org/downloads/release/python-3107/)
 
-Alternatively ..
+#### Alternatively ..
 
 Step 1:
 Ensure that Git and Python are installed on your computer. Git info available here [Git](https://github.com/git-guides/install-git)
@@ -110,7 +100,7 @@ Ensure that Git and Python are installed on your computer. Git info available he
 Step 2:
 Please run the below in your desired directory command line.
 ```bash
-cd Terminal-App-T1_A3-AdamHutt/src
+
 ```
 Step 3:
 Run the below into the command line
@@ -145,3 +135,11 @@ deactivate
 
 
 ### References
+
+Python enhancement proposals - PEP 8 – Style Guide for Python Code. Available at: https://peps.python.org/pep-0008/#code-lay-out (Accessed: 29 October 2023). 
+
+Hira, Z. (2023) Shell scripting for beginners – how to write bash scripts in linux, freeCodeCamp.org. Available at: https://www.freecodecamp.org/news/shell-scripting-crash-course-how-to-write-bash-scripts-in-linux/ (Accessed: 29 October 2023). 
+
+Colorama (no date) PyPI. Available at: https://pypi.org/project/colorama/ (Accessed: 29 October 2023). 
+
+JSON - JSON encoder and decoder (no date) Python documentation. Available at: https://docs.python.org/3/library/json.html (Accessed: 29 October 2023). 
