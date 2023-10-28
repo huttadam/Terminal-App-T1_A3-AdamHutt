@@ -1,7 +1,7 @@
 #!/bin/bash
 if ! [[ -x "$(command -v python3)" ]]
 then
-    echo 'Python3 not downlaoded , Please dowload to run.' >&2
+    echo 'Python3 not downloaded , Please dowload to run.' >&2
     exit 1
 fi
 

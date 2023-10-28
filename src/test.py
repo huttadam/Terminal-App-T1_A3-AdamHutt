@@ -1,6 +1,7 @@
 import pytest
 import flashcard_app
 
+
 cd = flashcard_app.CreateMenu()
 md = flashcard_app.MainMenu()
 
@@ -37,12 +38,12 @@ md = flashcard_app.MainMenu()
 
  # Works as expected 
 
- # Works as expected
-
 
 
 
 #Feature 2 
+
+
 
  # Test 2 - Case 1
 
@@ -50,6 +51,8 @@ md = flashcard_app.MainMenu()
 
 # -Expecting - will create a value error, return to menu and give 
 #  user message
+
+# -using test1_template.txt, it is mis-formatted with too many "/" (seperator)
 
 def test_for_mis_formatted_txt_from_user():
     with pytest.raises(ValueError):
@@ -59,12 +62,13 @@ cd.test_for_mis_formatted_txt_from_user()
 
 
 
-# -using test1_template.txt, it is mis-formatted with too many "/"
-#  (seperator)
+
+
+
 
 # Creating Deck (through user file)  - Case -2 (works)
 
-#Expecting - After adding src file, ask me for a name (Test2) and enter
+# Expecting - After adding src file, ask me for a name (Test2) and enter
 #            into Json deck
 
 def test_for_txt_file_correct_upload():

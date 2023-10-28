@@ -2,15 +2,15 @@
   {
     "Test3 (for testing)": [
       {
-        "content": "1 + 1 ",
+        "content": "1 + 1",
         "answer": "2"
       },
       {
-        "content": "2 + 2 ",
+        "content": "2 + 2",
         "answer": " 4"
       },
       {
-        "content": "3 + 3 ",
+        "content": "3 + 3",
         "answer": " 6"
       }
     ]
