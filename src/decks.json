@@ -3,7 +3,7 @@
     "Test3 (for testing)": [
       {
         "content": "1 + 1 ",
-        "answer": " 2"
+        "answer": "2"
       },
       {
         "content": "2 + 2 ",
@@ -36,6 +36,10 @@
       {
         "content": "A roman centurion",
         "answer": "Naughtious Maximus"
+      },
+      {
+        "content": "Ni Ni Ni",
+        "answer": "Shrubbery"
       }
     ]
   },

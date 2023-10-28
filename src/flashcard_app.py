@@ -6,6 +6,8 @@ from clear import clear
 from colorama import Fore, Style, init
 init(autoreset=True)
 
+
+
 # ///////////////// Navigation / Menu's /////////////////
 
 
@@ -76,7 +78,7 @@ class FlashCardApp():
 
 
     def display_available_decks(self):
-        with open('src/decks.json', 'r') as json_file:
+        with open('decks.json', 'r') as json_file:
             self.x = json.load(json_file)
 
         self.ava_deck_names = []
@@ -105,7 +107,7 @@ class MainMenu(FlashCardApp):
  
         while True:
             try:
-                user_main_choice = int(input(self.y_text +"Please choose your "
+                user_main_choice = int(input(self.y_text +"\nPlease choose your "
                                              "option with the number and hit"
                                              " enter: "))
                 if user_main_choice == 1:
@@ -132,7 +134,7 @@ class StudyMenu(FlashCardApp):
         self.display_available_decks()
 
         selected_index = int(input(self.y_text +"\nPlease choose with the number" 
-                                   "and hit enter: "))
+                                   " and hit enter: "))
         if 1 <= selected_index <= len(self.ava_deck_names):
             selected_deck = self.x[selected_index - 1]
             for sd_val in selected_deck.values():
@@ -330,7 +332,7 @@ class CreateMenu(FlashCardApp):
                     else:
                         print("Invalid input. Please enter 'Y' or 'N'.")
 
-                    with open('src/decks.json', 'w') as json_file:
+                    with open('decks.json', 'w') as json_file:
                         json.dump(self.x, json_file, indent=2)
 
                     print(f"\nCard(s) successfully created added to {key}\n")
@@ -377,7 +379,7 @@ class CreateMenu(FlashCardApp):
         lines_from_file = self.get_lines_from_file(file_path)
         try:
             txt_inp_swap = input("\n Do you want get 2 for each side, "
-            "2-sided Y /N ? ")
+            "2-sided Y/N ?: ")
             
             for line in lines_from_file:
                 content, answer = line.strip().split('/')
@@ -405,7 +407,7 @@ class CreateMenu(FlashCardApp):
         while True:
             name_input = input(self.y_text +"\nWhat do you want to call"
                                " your deck?: ")
-            with open('src/decks.json', 'r') as json_file:
+            with open('decks.json', 'r') as json_file:
                 d = json.load(json_file)
 
             name_exists = False
@@ -418,7 +420,7 @@ class CreateMenu(FlashCardApp):
                 template_created_dict = {name_input: deck_cards}
                 d.append(template_created_dict)
 
-                with open('src/decks.json', 'w') as json_file:
+                with open('decks.json', 'w') as json_file:
                     json.dump(d, json_file, indent=2)
 
                 self.post_function_options(f"Deck '{name_input}' has"
@@ -462,7 +464,7 @@ class EditMenu(FlashCardApp):
                 elif edit_menu_choice == 2:
                     self.change_screen_to_menu()
                     print("Which deck is the card you would you like to"
-                          " change? \n")
+                          " delete? \n")
                     self.display_available_decks()
                     self.delete_card_in_deck()
 
@@ -500,7 +502,7 @@ class EditMenu(FlashCardApp):
 
                         if not name_exists:
                             selected_deck[new_deck_name] = selected_deck.pop(old_deck_name)
-                            with open('src/decks.json', 'w') as json_file:
+                            with open('decks.json', 'w') as json_file:
                                 json.dump(self.x, json_file, indent=2)
                             self.post_function_options(f"Deck name changed to : '{new_deck_name}'.\n")
                             break
@@ -540,7 +542,7 @@ class EditMenu(FlashCardApp):
 
                         if 1 <= edit_c_number <= len(value):
                             deleted_card = value.pop(edit_c_number - 1)  
-                            with open('src/decks.json', 'w') as json_file:
+                            with open('decks.json', 'w') as json_file:
                                 json.dump(self.x, json_file, indent=2)
                             self.post_function_options(f"Card {edit_c_number}: {deleted_card} deleted successfully from '{key}'\n")
                         else:
@@ -564,7 +566,7 @@ class EditMenu(FlashCardApp):
                 selected_deck = self.x[del_card_choice - 1]
                 self.x.remove(selected_deck)
 
-                with open('src/decks.json', 'w') as json_file:
+                with open('decks.json', 'w') as json_file:
                     json.dump(self.x, json_file, indent=2)
                 break
 
