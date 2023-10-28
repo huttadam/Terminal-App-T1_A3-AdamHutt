@@ -10,19 +10,19 @@
 ### Purpose and Key Features
 
 
-#### ***Feature 1: Study a deck ***
+#### ***Feature 1: Study a deck
 
 
-#### ***Feature 2: Create a deck with a .txt file / Create a Deck Manually***
+#### ***Feature 2: Create a deck with a .txt file / Create a Deck Manually
 
 
-#### ***Feature 3: Add Cards to a deck ***
+#### ***Feature 3: Add Cards to a deck 
 
 
-#### ***Feature 4: Change name of deck ***
+#### ***Feature 4: Change name of deck 
 
 
-#### ***Feature 5: Delete a deck /Delete cards from a deck***
+#### ***Feature 5: Delete a deck /Delete cards from a deck
 
 
 ## Error Handling
@@ -33,14 +33,17 @@
 
 Some Examples of Photos (more in the docs folder):
 
-![Trello Overview 1]()
-![Trello Overview 2]()
-![Trello Overview 3]()
-![Trello Overview 4]()
+![Trello 1]()
+![Trello 2]()
+![Trello 3]()
+![Trello 4]()
 
-Completed Checklists:
+Completed Features Checklists:
 
-
+![Trello 1]()
+![Trello 2]()
+![Trello 3]()
+![Trello 4]()
 
 ### Style Guide
 PEP8
